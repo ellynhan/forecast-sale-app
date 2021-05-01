@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+            android:icon="@drawable/ic_baseline_dashboard_24"
+            android:title="대쉬보드"
+            android:id="@+id/test1"/>
+
+    <item
+            android:icon="@drawable/ic_baseline_location_searching_24"
+            android:title="매출 예측"
+            android:id="@+id/test2"/>
+
+    <item
+            android:icon="@drawable/ic_baseline_bar_chart_24"
+            android:title="통계"
+            android:id="@+id/test3"/>
+    <item
+            android:icon="@drawable/ic_baseline_settings_24"
+            android:title="설정"
+            android:id="@+id/test4"/>
+</menu>
