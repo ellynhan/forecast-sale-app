@@ -1,4 +1,4 @@
-package com.example.ready.Menus;
+package com.example.ready.Pages;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class ThirdMenu extends Fragment {
+public class ThirdPage extends Fragment {
     private LineChart chart;
 
     @Nullable
