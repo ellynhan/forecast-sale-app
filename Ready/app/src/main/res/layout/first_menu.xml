@@ -32,7 +32,8 @@
                             android:layout_marginLeft="15dp"
                             android:textSize="20dp"
                             android:textStyle="bold"
-                            android:text="오늘 예측 준비"/>
+                            android:textColor="@color/black"
+                            android:text="오늘 예측 준비량"/>
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -41,6 +42,7 @@
                             android:layout_marginRight="15dp"
                             android:textSize="20dp"
                             android:textStyle="bold"
+                            android:textColor="@color/black"
                             android:text="맑음"/>
                 </RelativeLayout>
                 <RelativeLayout
@@ -50,33 +52,44 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:text="2021년 4월 13일"/>
+                            android:textColor="@color/grey2"
+                            android:text="2021년 5월 3일"/>
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
-                            android:textSize="15dp"
-                            android:text="최고 최저\n19    2"/>
+                            android:textSize="12dp"
+                            android:textColor="@color/grey1"
+                            android:text="최고 최저\n20    10"/>
                 </RelativeLayout>
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="15dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/round_shape_button"
+                        android:gravity="center"
+                        android:text="꽈배기 14"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:backgroundTint="@color/green3"
+                        android:textSize="20dp" />
                     <Button
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="15dp"
                             android:layout_weight="0.5"
-                            android:text="꽈배기 14"
-                            android:textSize="20dp"
-                            android:background="@drawable/round_shape_button"/>
-                    <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="15dp"
-                            android:layout_weight="0.5"
+                            android:gravity="center"
                             android:text="도너츠 20개"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
                             android:textSize="20dp"
+                            android:backgroundTint="@color/green3"
                             android:background="@drawable/round_shape_button"/>
                 </LinearLayout>
             </LinearLayout>
@@ -96,6 +109,7 @@
                             android:layout_marginLeft="15dp"
                             android:textSize="20dp"
                             android:textStyle="bold"
+                            android:textColor="@color/black"
                             android:text="내일 예측 준비량"/>
                     <TextView
                             android:layout_width="wrap_content"
@@ -105,6 +119,7 @@
                             android:layout_marginRight="15dp"
                             android:textSize="20dp"
                             android:textStyle="bold"
+                            android:textColor="@color/black"
                             android:text="맑음"/>
                 </RelativeLayout>
                 <RelativeLayout
@@ -114,14 +129,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:text="2021년 4월 13일"/>
+                            android:textColor="@color/grey2"
+                            android:text="2021년 5월 4일"/>
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
-                            android:textSize="15dp"
-                            android:text="최고 최저\n19    2"/>
+                            android:textSize="12dp"
+                            android:textColor="@color/grey1"
+                            android:text="최고 최저\n21    14"/>
                 </RelativeLayout>
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -131,16 +148,24 @@
                             android:layout_height="match_parent"
                             android:layout_margin="15dp"
                             android:layout_weight="0.5"
+                            android:gravity="center"
                             android:text="꽈배기 99"
                             android:textSize="20dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:backgroundTint="@color/green3"
                             android:background="@drawable/round_shape_button"/>
                     <Button
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="15dp"
                             android:layout_weight="0.5"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
                             android:text="도너츠 100개"
                             android:textSize="20dp"
+                            android:backgroundTint="@color/green3"
                             android:background="@drawable/round_shape_button"/>
                 </LinearLayout>
             </LinearLayout>
@@ -151,14 +176,24 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginLeft="15dp"
+                    android:orientation="vertical"
                     android:layout_marginBottom="50dp">
+
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="15dp"
-                        android:textSize="20dp"
-                        android:text="일주일 매출 통계"
-                        android:textStyle="bold"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="일주일 매출 통계"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="2021년 4월 24일 ~ 2021년 4월 30일"
+                    android:textColor="@color/grey2" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

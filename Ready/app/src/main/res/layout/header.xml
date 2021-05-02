@@ -10,7 +10,7 @@
         android:textAlignment="center"
         android:textSize="50dp"
         android:text="READY"
-        android:background="@color/green3"
+        android:background="@color/white"
         android:id="@+id/first">
     </TextView>
 </LinearLayout>

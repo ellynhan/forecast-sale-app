@@ -1,4 +1,4 @@
-package com.example.ready.Menus;
+package com.example.ready.Pages;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,7 +21,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.Calendar;
 import java.util.Collections;
 
-public class SecondMenu extends Fragment {
+public class SecondPage extends Fragment {
     private MaterialCalendarView materialCalendarView;
     private SlidingUpPanelLayout slidingUpPanelLayout;
 

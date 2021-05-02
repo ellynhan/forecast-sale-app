@@ -9,5 +9,26 @@
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="android:buttonStyle">@style/NanumSquareTextViewStyle</item>
+        <item name="android:editTextStyle">@style/NanumSquareEditTextStyle</item>
+        <item name="android:radioButtonStyle">@style/NanumSquareRadioButtonStyle</item>
+        <item name="android:checkboxStyle">@style/NanumSquareCheckboxStyle</item>
+        <item name="android:textViewStyle">@style/NanumSquareTextViewStyle</item>
+    </style>
+    <style name="NanumSquareTextViewStyle" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="android:fontFamily">@font/nanum_square_r</item>
+    </style>
+    <style name="NanumSquareButtonStyle" parent="@android:style/Widget.DeviceDefault.Button.Borderless">
+        <item name="android:fontFamily">@font/nanum_square_r</item>
+    </style>
+    <style name="NanumSquareEditTextStyle" parent="@android:style/Widget.DeviceDefault.EditText">
+        <item name="android:fontFamily">@font/nanum_square_r</item>
+    </style>
+    <style name="NanumSquareRadioButtonStyle" parent="@android:style/Widget.DeviceDefault.CompoundButton.RadioButton">
+        <item name="android:fontFamily">@font/nanum_square_r</item>
+    </style>
+    <style name="NanumSquareCheckboxStyle" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
+        <item name="android:fontFamily">@font/nanum_square_r</item>
     </style>
 </resources>
