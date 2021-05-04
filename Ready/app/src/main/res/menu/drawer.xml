@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/group_menu">
         <item
-                android:id="@+id/nav_item_four"
-                android:icon="@drawable/ic_baseline_bar_chart_24"
-                android:title="Item 4" />
+            android:id="@+id/nav_item_four"
+            android:title="매뉴 입력"
+            
+            />
         <item
                 android:id="@+id/nav_item_five"
-                android:icon="@drawable/ic_baseline_location_searching_24"
-                android:title="Item 5" />
+                android:title="매출 입력" />
     </group>
 </menu>

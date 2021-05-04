@@ -2,7 +2,10 @@ package com.example.ready;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
@@ -25,8 +28,8 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
-    private FirstPage firstMenu = new FirstPage();
-    private SecondPage secondMenu = new SecondPage();
+    private FirstPage firstPage = new FirstPage();
+    private SecondPage secondPage = new SecondPage();
     private ThirdPage thirdMenu = new ThirdPage();
 
     @Override
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         this.initializeLayout();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, firstMenu).commitAllowingStateLoss();
+        transaction.replace(R.id.frame_layout, firstPage).commitAllowingStateLoss();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -45,15 +48,15 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
 
                 switch (item.getItemId()) {
-                    case R.id.test1: {
-                        transaction.replace(R.id.frame_layout, firstMenu).commitAllowingStateLoss();
+                    case R.id.dash_tab: {
+                        transaction.replace(R.id.frame_layout, firstPage).commitAllowingStateLoss();
                         break;
                     }
-                    case R.id.test2: {
-                        transaction.replace(R.id.frame_layout, secondMenu).commitAllowingStateLoss();
+                    case R.id.forecast_tab: {
+                        transaction.replace(R.id.frame_layout, secondPage).commitAllowingStateLoss();
                         break;
                     }
-                    case R.id.test3: {
+                    case R.id.stats_tab: {
                         transaction.replace(R.id.frame_layout, thirdMenu).commitAllowingStateLoss();
                         break;
                     }
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(drawable);
 
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -90,6 +93,15 @@ public class MainActivity extends AppCompatActivity {
         );
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        View headerView = navigationView.getHeaderView(0);
+        Button closeButton = headerView.findViewById(R.id.btn_close);
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

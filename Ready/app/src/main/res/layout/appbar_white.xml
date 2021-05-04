@@ -18,6 +18,7 @@
             android:background="@android:color/transparent"
             android:elevation="0dp">
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -25,8 +26,17 @@
                 android:text="READY"
                 android:textSize="30dp"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:fontFamily="@font/aldotheapache"/>
+
+
+            <Button
+                android:id="@+id/btn_close"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+                android:layout_gravity="right"
+                android:paddingRight="10dp"/>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
