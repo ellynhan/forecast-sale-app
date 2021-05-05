@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/group_menu">
         <item
-            android:id="@+id/nav_item_four"
+            android:id="@+id/item_menu"
             android:title="매뉴 입력"
-            
+
             />
         <item
-                android:id="@+id/nav_item_five"
+                android:id="@+id/item_sale"
                 android:title="매출 입력" />
     </group>
 </menu>
