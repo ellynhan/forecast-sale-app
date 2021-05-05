@@ -31,7 +31,7 @@ public class SecondPage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.second_menu, container, false);
+        View v = inflater.inflate(R.layout.second_page, container, false);
 
         // calendar decorator
         materialCalendarView = v.findViewById(R.id.calendarView);

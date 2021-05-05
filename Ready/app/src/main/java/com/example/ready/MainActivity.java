@@ -2,8 +2,14 @@ package com.example.ready;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -25,9 +31,11 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
-    private FirstPage firstMenu = new FirstPage();
-    private SecondPage secondMenu = new SecondPage();
-    private ThirdPage thirdMenu = new ThirdPage();
+    private FirstPage firstPage = new FirstPage();
+    private SecondPage secondPage = new SecondPage();
+    private ThirdPage thirdPage= new ThirdPage();
+//    private MenuPage menuPage = new MenuPage();
+//    private SalePage salePage = new SalePage();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,24 +45,23 @@ public class MainActivity extends AppCompatActivity {
         this.initializeLayout();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, firstMenu).commitAllowingStateLoss();
+        transaction.replace(R.id.frame_layout, firstPage).commitAllowingStateLoss();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-
                 switch (item.getItemId()) {
-                    case R.id.test1: {
-                        transaction.replace(R.id.frame_layout, firstMenu).commitAllowingStateLoss();
+                    case R.id.dash_tab: {
+                        transaction.replace(R.id.frame_layout, firstPage).commitAllowingStateLoss();
                         break;
                     }
-                    case R.id.test2: {
-                        transaction.replace(R.id.frame_layout, secondMenu).commitAllowingStateLoss();
+                    case R.id.forecast_tab: {
+                        transaction.replace(R.id.frame_layout, secondPage).commitAllowingStateLoss();
                         break;
                     }
-                    case R.id.test3: {
-                        transaction.replace(R.id.frame_layout, thirdMenu).commitAllowingStateLoss();
+                    case R.id.stats_tab: {
+                        transaction.replace(R.id.frame_layout, thirdPage).commitAllowingStateLoss();
                         break;
                     }
                 }
@@ -78,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(drawable);
 
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -91,24 +98,57 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        View headerView = navigationView.getHeaderView(0);
+        Button closeBtn = headerView.findViewById(R.id.btn_close);
+        Button homeBtn = headerView.findViewById(R.id.btn_home);
+        final LinearLayout menuGroup = headerView.findViewById(R.id.menu_btn_group);
+        final LinearLayout saleGroup = headerView.findViewById(R.id.sale_btn_group);
+        final View menuPage =  headerView.findViewById(R.id.menu_page);
+        final View salePage = headerView.findViewById(R.id.sale_page);
+        final ImageView menuTabImage = headerView.findViewById(R.id.menu_btn_image);
+        final ImageView saleTabImage = headerView.findViewById(R.id.sale_btn_image);
+        final TextView menuTabText = headerView.findViewById(R.id.menu_btn_text);
+        final TextView saleTabText = headerView.findViewById(R.id.sale_btn_text);
+
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
-                    case R.id.nav_item_four: {
-                        Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
-                    }
-                    case R.id.nav_item_five: {
-                        Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-                drawerLayout.closeDrawer(GravityCompat.START);
-
-                return true;
+            public void onClick(View view) {
+                drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawer(Gravity.LEFT);
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.frame_layout, firstPage).commitAllowingStateLoss();
+            }
+        });
+
+        menuGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                salePage.setVisibility(View.GONE);
+                menuPage.setVisibility(View.VISIBLE);
+                menuTabImage.setColorFilter(Color.BLACK);
+                menuTabText.setTextColor(Color.BLACK);
+                saleTabImage.setColorFilter(Color.parseColor("#767171"));
+                saleTabText.setTextColor(Color.parseColor("#767171"));
+            }
+        });
+        saleGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                menuPage.setVisibility(View.GONE);
+                salePage.setVisibility(View.VISIBLE);
+                saleTabImage.setColorFilter(Color.BLACK);
+                saleTabText.setTextColor(Color.BLACK);
+                menuTabImage.setColorFilter(Color.parseColor("#767171"));
+                menuTabText.setTextColor(Color.parseColor("#767171"));
+            }
+        });
+
     }
 
     @Override

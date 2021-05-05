@@ -30,7 +30,7 @@ public class ThirdPage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.third_menu, container, false);
+        View v = inflater.inflate(R.layout.third_page, container, false);
         ArrayList<String> days = new ArrayList<>();
 
         // x축 이름을 위한 최근 7일 가져오기
