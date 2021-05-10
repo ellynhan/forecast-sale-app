@@ -22,6 +22,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import com.example.ready.DB.DBHelper;
 import com.example.ready.Pages.FirstPage;
 import com.example.ready.Pages.SecondPage;
 import com.example.ready.Pages.ThirdPage;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        DBHelper dbHelper = DBHelper.getInstance(this);
 
         this.initializeLayout();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
