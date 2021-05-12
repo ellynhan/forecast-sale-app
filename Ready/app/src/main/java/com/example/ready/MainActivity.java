@@ -2,13 +2,13 @@ package com.example.ready;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.*;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
@@ -22,7 +22,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import com.example.ready.DB.DBHelper;
 import com.example.ready.Pages.FirstPage;
 import com.example.ready.Pages.SecondPage;
 import com.example.ready.Pages.ThirdPage;
@@ -30,22 +29,30 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    private FragmentManager fragmentManager = getSupportFragmentManager();
+    final private FirstPage firstPage = new FirstPage();
+    final private SecondPage secondPage = new SecondPage();
+    final private ThirdPage thirdPage= new ThirdPage();
+//    final private MenuPage menuPage = new MenuPage();
+//    final private SalePage salePage = new SalePage();
 
-    private FirstPage firstPage = new FirstPage();
-    private SecondPage secondPage = new SecondPage();
-    private ThirdPage thirdPage= new ThirdPage();
-//    private MenuPage menuPage = new MenuPage();
-//    private SalePage salePage = new SalePage();
+    final private FragmentManager fragmentManager = getSupportFragmentManager();
+
+    private NavigationView navigationView;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private View menuPage, salePage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DBHelper dbHelper = DBHelper.getInstance(this);
+//        DBHelper dbHelper = DBHelper.getInstance(this);
 
         this.initializeLayout();
+    }
+
+    public void bottomNavigationViewInit() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout, firstPage).commitAllowingStateLoss();
@@ -74,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initializeLayout() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+    private void toolbarInit() {
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -86,10 +93,11 @@ public class MainActivity extends AppCompatActivity {
         DrawableCompat.setTint(drawable, Color.WHITE);
 
         getSupportActionBar().setHomeAsUpIndicator(drawable);
+    }
 
-
-        final DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+    private void drawerLayoutInit() {
+        navigationView = findViewById(R.id.nav_view);
+        drawerLayout = findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -98,21 +106,20 @@ public class MainActivity extends AppCompatActivity {
                 R.string.open,
                 R.string.close
         );
-
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
-        View headerView = navigationView.getHeaderView(0);
-        Button closeBtn = headerView.findViewById(R.id.btn_close);
-        Button homeBtn = headerView.findViewById(R.id.btn_home);
+        final View headerView = navigationView.getHeaderView(0);
+        final Button closeBtn = headerView.findViewById(R.id.btn_close);
+        final Button homeBtn = headerView.findViewById(R.id.btn_home);
         final LinearLayout menuGroup = headerView.findViewById(R.id.menu_btn_group);
         final LinearLayout saleGroup = headerView.findViewById(R.id.sale_btn_group);
-        final View menuPage =  headerView.findViewById(R.id.menu_page);
-        final View salePage = headerView.findViewById(R.id.sale_page);
         final ImageView menuTabImage = headerView.findViewById(R.id.menu_btn_image);
         final ImageView saleTabImage = headerView.findViewById(R.id.sale_btn_image);
         final TextView menuTabText = headerView.findViewById(R.id.menu_btn_text);
         final TextView saleTabText = headerView.findViewById(R.id.sale_btn_text);
 
+        menuPage =  headerView.findViewById(R.id.menu_page);
+        salePage = headerView.findViewById(R.id.sale_page);
 
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.frame_layout, firstPage).commitAllowingStateLoss();
             }
         });
-
         menuGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,7 +157,99 @@ public class MainActivity extends AppCompatActivity {
                 menuTabText.setTextColor(Color.parseColor("#767171"));
             }
         });
+    }
 
+    // table test
+    private void tableLayoutInit() {
+        final TableLayout tableLayout = menuPage.findViewById(R.id.tableLayout);
+        final String[] menuName = new String[] { "도너츠", "꽈배기" };
+        final String[] price = new String[] { "1000", "2000" };
+        int count = 0;
+
+        // insert data to table
+        for(int i = 0; i < 2; i++, count++) {
+            TableRow row = new TableRow(this);
+            row.setBackgroundResource(R.drawable.menu_insert_shape);
+            row.setLayoutParams(new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.WRAP_CONTENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT
+            ));
+
+            // menu name
+            TextView textView = new TextView(this);
+            textView.setText(menuName[count]);
+            textView.setGravity(Gravity.CENTER);
+            textView.setTextSize(20);
+
+            row.addView(textView);
+
+            // price
+            textView = new TextView(this);
+            textView.setText(price[count]);
+            textView.setGravity(Gravity.CENTER);
+            textView.setTextSize(20);
+
+            row.addView(textView);
+
+            tableLayout.addView(row);
+        }
+
+        final Button editBtn = menuPage.findViewById(R.id.btn_menu_edit);
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+            final LinearLayout menuLayout = menuPage.findViewById(R.id.menu_layout);
+            final TableLayout tableLayout = menuPage.findViewById(R.id.menu_delete_layout);
+            final TableLayout.LayoutParams tlParams = new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.WRAP_CONTENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT
+            );
+            final TableLayout.LayoutParams trParams = new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.WRAP_CONTENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT
+            );
+
+            @Override
+            public void onClick(View v) {
+                editBtn.setText("편집 저장 ");
+
+                // mediaquery?
+                tlParams.topMargin = Math.round(50 * displayMetrics.density);
+                tlParams.leftMargin = Math.round(-40 * displayMetrics.density);
+                trParams.bottomMargin = Math.round(10 * displayMetrics.density);
+
+                for(int i = 0; i < 2; i++) {
+                    tableLayout.setLayoutParams(tlParams);
+
+                    TableRow tableRow = new TableRow(v.getContext());
+                    tableRow.setLayoutParams(trParams);
+
+                    final Button deleteBtn = new Button(v.getContext());
+                    deleteBtn.setBackgroundResource(R.drawable.ic_baseline_close_24);
+
+                    tableRow.addView(deleteBtn);
+                    tableLayout.addView(tableRow);
+                }
+
+                final Button addBtn = new Button(v.getContext());
+                final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.gravity = Gravity.CENTER_HORIZONTAL;
+                addBtn.setLayoutParams(params);
+                addBtn.setBackgroundResource(R.drawable.ic_baseline_add_24);
+
+                menuLayout.addView(addBtn);
+            }
+        });
+    }
+
+    private void initializeLayout() {
+        bottomNavigationViewInit();
+        toolbarInit();
+        drawerLayoutInit();
+        tableLayoutInit();
     }
 
     @Override
