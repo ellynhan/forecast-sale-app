@@ -3,11 +3,11 @@
     <group android:id="@+id/group_menu">
         <item
             android:id="@+id/item_menu"
-            android:title="매뉴 입력"
-
-            />
+            android:icon="@drawable/ic_baseline_menu_book_24"
+            android:title="매뉴 입력" />
         <item
-                android:id="@+id/item_sale"
-                android:title="매출 입력" />
+            android:id="@+id/item_sale"
+            android:icon="@drawable/baseline_add_task_black_24dp"
+            android:title="매출 입력" />
     </group>
 </menu>

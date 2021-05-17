@@ -7,14 +7,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.example.ready.R;
 
-public class FirstPage extends Fragment {
-    public static FirstPage newInstance() { return new FirstPage(); }
-
+public class SaleInsertPage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.first_page, container, false);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 }
