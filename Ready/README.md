@@ -3,3 +3,7 @@
 - DrawerLayout의 코드 분리에 실패해서 임시방편으로 fragment로 해결.
 - MenuInsertPage 추가. 메뉴편집, 편집저장 기능 구현.
 - Menu DB Read & Create 구현.
+
+## 210520
+- Menu DB Delete 구현.
+- Insert, Delete 후 데이터 reload 하는 문제 고민 필요.

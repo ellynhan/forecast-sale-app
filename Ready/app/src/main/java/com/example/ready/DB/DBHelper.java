@@ -42,11 +42,12 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Menu> menus = new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM menus ORDER BY _id DESC", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM menus", null);
         if(cursor.moveToFirst()) {
             do {
                 Menu menu = new Menu();
 
+                menu.setId(cursor.getInt(cursor.getColumnIndex("_id")));
                 menu.setMenuId(cursor.getInt(cursor.getColumnIndex(Menu.MENU_ID)));
                 menu.setMenuName(cursor.getString(cursor.getColumnIndex(Menu.MENU_NAME)));
                 menu.setMenuPrice(cursor.getInt(cursor.getColumnIndex(Menu.MENU_PRICE)));
@@ -71,8 +72,14 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteMenu(int id) {
+    public void deleteMenu(ArrayList<Integer> deleteIndex) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM menus WHERE _id =" + id);
+
+        for(int i : deleteIndex) {
+            if(i != 0)
+                db.execSQL("DELETE FROM menus WHERE _id =" + i);
+        }
+
+        db.close();
     }
 }
