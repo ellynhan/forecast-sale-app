@@ -17,9 +17,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.ready.DB.DBHelper;
+import com.example.ready.DB.DateTime;
+import com.example.ready.DB.Weather;
 import com.example.ready.Pages.*;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import java.util.concurrent.Executors;
+import org.json.JSONException;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     final private FirstPage firstPage = new FirstPage();
@@ -31,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     final private FragmentManager fragmentManager = getSupportFragmentManager();
 
+    final private Weather weather = new Weather();
+    final private DateTime dateTime = new DateTime();
     private NavigationView navigationView;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -48,6 +55,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
+/* 날씨 API 요청하는 코드, 인증키 있어야 작동함. 작동원하면 재원한테 연락하시오!
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("NEW THREAD IS STARTED");
+                try {
+                    String str = weather.func("20210526","1100","98","77");
+                    System.out.println("returns: "+str);
+                } catch (IOException | JSONException e) {
+                    System.out.println("ERROR IS CAUGHT");
+                    e.printStackTrace();
+                }
+            }
+        });
+*/
         this.initializeLayout();
     }
 
@@ -124,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Weather weather = new Weather();
         switch(item.getItemId()) {
             case R.id.item_menu: {
                 transaction.replace(R.id.frame_layout, menuInsertPage).commitAllowingStateLoss();
