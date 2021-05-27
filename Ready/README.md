@@ -7,3 +7,9 @@
 ## 210520
 - Menu DB Delete 구현.
 - Insert, Delete 후 데이터 reload 하는 문제 고민 필요.
+
+## 210527
+- Menu, Sale Page를 intent 방식으로 불러오는 방법 채택.
+
+## 210528
+-  Menu Insert, Delete 후 데이터 reload 문제 해결.
