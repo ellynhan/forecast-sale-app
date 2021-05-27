@@ -36,7 +36,7 @@ public class MenuInsertPage extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.drawer_navigation, container, false);
+        v = inflater.inflate(R.layout.menu_page, container, false);
 
         rootTable = v.findViewById(R.id.tableLayout);
         dbHelper = DBHelper.getInstance(v.getContext());
