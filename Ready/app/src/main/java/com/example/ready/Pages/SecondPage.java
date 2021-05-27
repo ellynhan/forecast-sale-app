@@ -33,6 +33,12 @@ public class SecondPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.second_page, container, false);
 
+        // for test
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        CalendarDay date2 = CalendarDay.from(calendar);
+        calendar.add(Calendar.DAY_OF_YEAR, 4);
+        CalendarDay date3 = CalendarDay.from(calendar);
+
         // calendar decorator
         materialCalendarView = v.findViewById(R.id.calendarView);
         materialCalendarView.setSelectedDate(CalendarDay.today());
@@ -41,8 +47,10 @@ public class SecondPage extends Fragment {
                 new SundayDecorator(),
                 new WeekDayDecorator()
         );
-        materialCalendarView.addDecorator(
-                new EventDecorator(Color.RED, Collections.singleton(date))
+        materialCalendarView.addDecorators(
+                new EventDecorator("20", Color.RED, Collections.singleton(date)),
+                new EventDecorator("10", Color.BLUE, Collections.singleton(date2)),
+                new EventDecorator("5", Color.GREEN, Collections.singleton(date3))
         );
 
         // when date is clicked, show up slidingUpPanelLayout
