@@ -7,7 +7,6 @@
     android:id="@+id/nav_view_header"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -24,7 +23,6 @@
             app:contentInsetStart="24dp"
             app:layout_anchor="@+id/appBarLayout"
             app:layout_anchorGravity="center">
-
             <Button
                 android:id="@+id/btn_close"
                 android:layout_width="wrap_content"
@@ -33,8 +31,6 @@
                 android:scaleY="1.5"
                 android:layout_gravity="left"
                 android:drawableLeft="@drawable/ic_baseline_close_24" />
-
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,8 +40,6 @@
                 android:textColor="@color/green1"
                 android:textSize="30dp"
                 android:textStyle="bold" />
-
-
             <Button
                 android:id="@+id/btn_home"
                 android:layout_width="wrap_content"
