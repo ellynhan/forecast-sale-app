@@ -82,4 +82,77 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+
+    public ArrayList<Sale> getSale(String date) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Sale> sales = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM sales WHERE date = ?",
+                new String[] { date }
+        );
+        if(cursor.moveToFirst()) {
+            do {
+                Sale sale = new Sale();
+
+                sale.setMenuId(cursor.getInt(cursor.getColumnIndex(Sale.MENU_ID)));
+                sale.setSaleQty(cursor.getInt(cursor.getColumnIndex(Sale.QTY)));
+//                sale.setSaleWeather(cursor.getInt(cursor.getColumnIndex(Sale.WEATHER)));
+                sale.setSaleDate(cursor.getString(cursor.getColumnIndex(Sale.DATE)));
+                sale.setSaleTime(cursor.getInt(cursor.getColumnIndex(Sale.TIME)) > 0);
+                sale.setSaleHoliday(cursor.getInt(cursor.getColumnIndex(Sale.HOLIDAY)) > 0);
+
+                sales.add(sale);
+            } while(cursor.moveToNext());
+        }
+        cursor.close();
+
+        return sales;
+    }
+
+    // 보고 있는 달만 추후 수정 필요
+    public ArrayList<String> getSaleDate() {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<String> dates = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT date FROM sales", null);
+        if(cursor.moveToFirst()) {
+            do {
+                String date;
+                date = cursor.getString(cursor.getColumnIndex(Sale.DATE));
+
+                if(!dates.contains(date))
+                    dates.add(date);
+            } while(cursor.moveToNext());
+        }
+        cursor.close();
+
+        return dates;
+    }
+
+    public void insertSale(Sale sale) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(Sale.MENU_ID, sale.menu_id);
+        values.put(Sale.QTY, sale.qty);
+        values.put(Sale.WEATHER, sale.weather);
+        values.put(Sale.DATE, sale.date);
+        values.put(Sale.TIME, sale.time);
+        values.put(Sale.HOLIDAY, sale.holiday);
+
+        db.insert(Sale.TABLE_NAME, null, values);
+        db.close();
+    }
+
+    public void updateSale(Sale sale) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(Sale.QTY, sale.qty);
+        values.put(Sale.TIME, sale.time);
+
+        db.update(Sale.TABLE_NAME, values, "menu_id = ? AND date = ?", new String[] { String.valueOf(sale.menu_id), sale.date });
+        db.close();
+    }
 }

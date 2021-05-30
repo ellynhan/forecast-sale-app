@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <Button
-            android:id="@+id/btn_close"
+            android:id="@+id/close_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:scaleX="1.0"
@@ -52,10 +52,35 @@
                     android:textSize="16sp" />
             </TableRow>
         </TableLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioGroup"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal">
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/morning"
+                    android:text="오전"/>
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/noon"
+                    android:text="오후"/>
+            </RadioGroup>
+        </LinearLayout>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/sale_save"
+            android:id="@+id/save_btn"
             android:layout_marginTop="20dp"
             android:background="@drawable/round_shape_button"
             android:backgroundTint="@color/green2"
