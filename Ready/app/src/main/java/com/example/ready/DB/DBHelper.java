@@ -76,8 +76,10 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         for(int i : deleteIndex) {
-            if(i != 0)
+            if(i != 0) {
                 db.execSQL("DELETE FROM menus WHERE _id =" + i);
+                db.execSQL("DELETE FROM sales WHERE menu_id =" + i);
+            }
         }
 
         db.close();
