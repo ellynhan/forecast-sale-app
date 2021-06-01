@@ -141,7 +141,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         values.put(Sale.MENU_ID, sale.menu_id);
         values.put(Sale.QTY, sale.qty);
-        values.put(Sale.WEATHER, sale.weather);
+        values.put(Sale.SKY, sale.sky);
+        values.put(Sale.RAIN, sale.rain);
         values.put(Sale.DATE, sale.date);
         values.put(Sale.TIME, sale.time);
         values.put(Sale.HOLIDAY, sale.holiday);
@@ -211,15 +212,21 @@ public class DBHelper extends SQLiteOpenHelper {
             "2021년 05월 30일"
         ));
 
-        ArrayList<Integer> weather1 = new ArrayList<>(Arrays.asList(
+        ArrayList<Integer> sky1 = new ArrayList<>(Arrays.asList(
             0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1
+        ));
+        ArrayList<Integer> rain1 = new ArrayList<>(Arrays.asList(
+                3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 ,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0
         ));
         ArrayList<Integer> qty1 = new ArrayList<>(Arrays.asList(
             39, 53, 135, 304, 59, 22, 42, 18, 35, 80, 36, 61, 45, 2, 96, 45, 33, 70, 193, 12, 71, 278, 90, 27, 121, 168, 52, 27, 22, 78
         ));
 
-        ArrayList<Integer> weather2 = new ArrayList<>(Arrays.asList(
+        ArrayList<Integer> sky2 = new ArrayList<>(Arrays.asList(
             4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5
+        ));
+        ArrayList<Integer> rain2 = new ArrayList<>(Arrays.asList(
+            0 ,0 ,0 ,0 ,0 ,3 ,0 ,0 ,0 ,0 ,0 ,3 ,0 ,0 ,2 ,0 ,4 ,3 ,0 ,0 ,1 ,2 ,0 ,0 ,0 ,2 ,0 ,3 ,0 ,4
         ));
         ArrayList<Integer> qty2 = new ArrayList<>(Arrays.asList(
             44, 31, 30, 36, 211, 366, 33, 15, 192, 3, 28, 100, 17, 67, 16, 201, 69, 65, 37, 102, 309, 78, 134, 91, 96, 17, 53, 91, 35, 25
@@ -230,7 +237,8 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(Sale.QTY, qty1.get(i));
             values.put(Sale.TIME, 0);
             values.put(Sale.HOLIDAY, 0);
-            values.put(Sale.WEATHER, weather1.get(i));
+            values.put(Sale.SKY, sky1.get(i));
+            values.put(Sale.RAIN, rain1.get(i));
             values.put(Sale.DATE, date.get(i));
             db.insert(Sale.TABLE_NAME, null, values);
         }
@@ -240,7 +248,8 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(Sale.QTY, qty2.get(i));
             values.put(Sale.TIME, 0);
             values.put(Sale.HOLIDAY, 0);
-            values.put(Sale.WEATHER, weather2.get(i));
+            values.put(Sale.SKY, sky2.get(i));
+            values.put(Sale.RAIN, rain2.get(i));
             values.put(Sale.DATE, date.get(i));
             db.insert(Sale.TABLE_NAME, null, values);
         }

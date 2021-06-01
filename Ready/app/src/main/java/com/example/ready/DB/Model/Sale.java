@@ -6,7 +6,8 @@ public class Sale {
     public static final String TABLE_NAME = "sales";
     public static final String MENU_ID = "menu_id";
     public static final String QTY = "qty";
-    public static final String WEATHER = "weather";
+    public static final String SKY = "sky";
+    public static final String RAIN = "rain";
     public static final String DATE = "date";
     public static final String TIME = "time";
     public static final String HOLIDAY = "holiday";
@@ -14,7 +15,8 @@ public class Sale {
 //    public int _id;
     public int menu_id;
     public int qty;
-    public int weather;
+    public int sky;
+    public int rain;
     public String date;
     public Boolean time;
     public Boolean holiday;
@@ -22,10 +24,12 @@ public class Sale {
 
     public Sale() {}
 
-    public Sale(int menu_id, int qty, String date, Boolean time) {
+    public Sale(int menu_id, int qty, String date, int sky, int rain, Boolean time) {
         this.menu_id = menu_id;
         this.qty = qty;
         this.date = date;
+        this.sky = sky;
+        this.rain = rain;
         this.time = time;
     }
 
@@ -51,7 +55,8 @@ public class Sale {
                     + "_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                     + MENU_ID + " INTEGER NOT NULL,"
                     + QTY + " INTEGER NOT NULL,"
-                    + WEATHER + " INTEGER,"
+                    + SKY + " INTEGER,"
+                    + RAIN + " INTEGER,"
                     + DATE + " TEXT NOT NULL,"
                     + TIME + " INTEGER NOT NULL,"
                     + HOLIDAY + " INTEGER NOT NULL"
