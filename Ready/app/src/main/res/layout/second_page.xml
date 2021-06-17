@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/secondMenu"
     android:layout_marginTop="?attr/actionBarSize">
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        sothree:umanoOverlay="true"
+        sothree:umanoShadowHeight="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/sliding_layout"
@@ -30,29 +32,42 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:orientation="horizontal"
+            android:paddingBottom="-3dp"
+            android:paddingRight="-3dp"
+            android:paddingLeft="-3dp"
+            android:id="@+id/round_slide"
             android:background="@drawable/round_slide">
-           <TextView
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Main Content"
-                android:textSize="16sp" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center|top"
-                android:text="The Awesome Sliding Up Panel"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+                <Button
+                    android:id="@+id/buttonbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:height="8dp"
+                    android:background="@drawable/round_shape_button"
+                    android:backgroundTint="@color/black"
+                    android:text="Button"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Main Content"
+                    android:textSize="16sp" />
+            </LinearLayout>
             </RelativeLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-    <!--        <TextView-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:text="TEST"/>-->
-    <!--        <androidx.recyclerview.widget.RecyclerView-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            android:layout_weight="4"-->
-    <!--            android:background="@color/white"/>-->
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="TEST"/>-->
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="4"-->
+<!--                android:background="@color/white"/>-->
 </FrameLayout>

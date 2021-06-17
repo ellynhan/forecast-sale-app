@@ -27,7 +27,6 @@
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:fontFamily="@font/aldotheapache"/>
-
             <Button
                 android:id="@+id/toolbarBtn"
                 android:layout_width="wrap_content"

@@ -5,36 +5,104 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/secondMenu"
+    android:layout_marginHorizontal="16dp"
     android:layout_marginTop="?attr/actionBarSize">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/white">
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="전체메뉴"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                android:paddingTop="10dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"/>
+                android:text="통계기준"
+                android:layout_weight="1"
+                android:textAlignment="center"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="일주일 통계"
-                android:textSize="20dp"/>
+                android:text="기간"
+                android:layout_weight="1"
+                android:textAlignment="center"/>
         </LinearLayout>
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lineChart"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"/>
+            android:layout_height="1dp"
+            android:background="@android:color/black"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Spinner
+                android:id="@+id/spinner_stats_standard"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:spinnerMode="dropdown"
+                android:dropDownVerticalOffset="20dp"
+                android:layout_weight="1"/>
+            <Spinner
+                android:id="@+id/spinner_period"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:spinnerMode="dropdown"
+                android:dropDownVerticalOffset="20dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="전체 매출 통계"
+            android:textAlignment="center"/>
+        <LinearLayout
+            android:layout_height="200dp"
+            android:layout_width="match_parent">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="@color/white">
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChart"
+                        android:layout_width="380dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white"
+            android:layout_marginVertical="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="날씨별"
+            android:textAlignment="center"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white"
+            android:layout_marginVertical="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="요일별"
+            android:textAlignment="center"/>
+
     </LinearLayout>
+
+
 </FrameLayout>

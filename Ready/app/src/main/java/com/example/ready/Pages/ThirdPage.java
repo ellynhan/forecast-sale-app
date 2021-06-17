@@ -1,13 +1,24 @@
 package com.example.ready.Pages;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.ready.DB.DBHelper;
+import com.example.ready.DB.DateTime;
+import com.example.ready.DB.Model.Sale;
+import com.example.ready.DB.Model.Menu;
+import com.example.ready.MainActivity;
 import com.example.ready.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -18,6 +29,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,74 +38,128 @@ import java.util.TimeZone;
 
 public class ThirdPage extends Fragment {
     private LineChart chart;
-
+    private DBHelper db;
+    private DateTime dt;
+    private ArrayList<Menu> menus;
+    private int days;
+    private int currStats;
+    private int chartWidth;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.third_page, container, false);
-        ArrayList<String> days = new ArrayList<>();
-
-        // x축 이름을 위한 최근 7일 가져오기
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"));
-        for(int i = 1; i <= 7; i++) {
-            Date day = calendar.getTime();
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("d");
-            days.add(dateFormat.format(day) + " 일");
-
-            calendar.add(Calendar.DAY_OF_WEEK, 1);
-        }
-
+        db = DBHelper.getInstance(v.getContext());
+        dt = new DateTime();
         chart = v.findViewById(R.id.lineChart);
+        menus = db.getMenu();
+        ArrayList<String> menuList = new ArrayList<String>();
+        days = 7;
+        currStats = 0;
+        final Spinner stats_spinner = v.findViewById(R.id.spinner_stats_standard);
+        Spinner period_spinner = v.findViewById(R.id.spinner_period);
+        menuList.add("전체 메뉴");
+        for(int i=0; i<menus.size(); i++){
+            menuList.add(menus.get(i).menu_name);
+        }
+        ArrayAdapter<String> stats_adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spinner_list, menuList);
+        ArrayAdapter<CharSequence> period_adapter = ArrayAdapter.createFromResource(v.getContext(), R.array.array_selection_period, R.layout.spinner_list);
+        stats_adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        period_adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        stats_spinner.setAdapter(stats_adapter);
+        period_spinner.setAdapter(period_adapter);
 
+        stats_spinner.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        period_spinner.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        stats_spinner.setBackgroundColor(Color.TRANSPARENT);
+        period_spinner.setBackgroundColor(Color.TRANSPARENT);
+
+        stats_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                System.out.println("Spinner listner");
+                int Id = (int)id -1;
+                if(id==0){
+                    setNdaysChart(days);
+                    currStats=0;
+                }else{
+                    setNdaysOneMenuChart(days,Id);
+                    currStats=Id+1;
+                }
+                chart.notifyDataSetChanged();
+                chart.invalidate();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // literally nothing.
+            }
+        });
+        period_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                int isChanged = 0;
+                if(id==0&&days!=7){
+                    days = 7;
+                    isChanged =1;
+                }
+                if(id!=0&&days!=30){
+                    days = 30;
+                    chart.setMinimumWidth(100*days);
+                    isChanged = 1;
+                }
+                if(isChanged == 1){
+                    if(currStats == 0){
+                        setNdaysChart(days);
+                    }else{
+                        setNdaysOneMenuChart(days,currStats-1);
+                    }
+                    chart.notifyDataSetChanged();
+                    chart.invalidate();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // literally nothing.
+            }
+        });
+        return v;
+    }
+
+    public void setNdaysChart(int d){
         // x축 설정
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
         xAxis.setDrawLabels(true);
         xAxis.setDrawAxisLine(false);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(dt.getNdaysWOY(d)));
 
-        // graph data(DB)
-        ArrayList<Entry> menu1 = new ArrayList<>();
-        ArrayList<Entry> menu2 = new ArrayList<>();
+        //ArrayList<Menu> menus = db.getMenu();
 
-//        for(int i = 0; i < 10; i++) {
-//            float value = (float) (Math.random() * 10);
-//            menu1.add(new Entry(i, value));
-//        }
-        menu1.add(new Entry(0, 10));
-        menu1.add(new Entry(1, 15));
-        menu1.add(new Entry(2, 5));
-        menu1.add(new Entry(3, 30));
-        menu1.add(new Entry(4, 20));
-        menu1.add(new Entry(5, 10));
-        menu1.add(new Entry(6, 50));
+        ArrayList<ArrayList<Entry>> m = new ArrayList<ArrayList<Entry>>();
+        ArrayList<LineDataSet> ls = new ArrayList<LineDataSet>();
+        ArrayList<String> Ndays = dt.getNdaysFull(d);
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        String[] colorCode = {"#79CBB5","#48B0A6","#4897A6"};
+        for(int i=0; i<menus.size(); i++){
+            m.add(new ArrayList<Entry>());
+        }
 
-        menu2.add(new Entry(0, 5));
-        menu2.add(new Entry(1, 10));
-        menu2.add(new Entry(2, 15));
-        menu2.add(new Entry(3, 20));
-        menu2.add(new Entry(4, 25));
-        menu2.add(new Entry(5, 30));
-        menu2.add(new Entry(6, 35));
-
-        // description
-        LineDataSet set1, set2;
-        set1 = new LineDataSet(menu1, "꽈배기");
-        set2 = new LineDataSet(menu2, "볶음밥");
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
-        dataSets.add(set2);
-
-        LineData data = new LineData(dataSets);
-
-        set1.setColor(Color.BLACK);
-        set1.setCircleColor(Color.BLACK);
-
-        set2.setColor(Color.GREEN);
-        set2.setCircleColor(Color.GREEN);
+        for(int i=0; i<d; i++){
+            ArrayList<Sale> s = db.getSale(Ndays.get(i));
+            for(int j=0; j<s.size(); j++){
+                m.get(j).add(new Entry(i,s.get(j).qty));
+            }
+        }
+        for(int i=0; i<menus.size(); i++){
+            ls.add(new LineDataSet(m.get(i),menus.get(i).menu_name));
+            dataSets.add(ls.get(i));
+            ls.get(i).setColor(Color.parseColor(colorCode[i]));
+            ls.get(i).setCircleColor(Color.parseColor(colorCode[i]));
+            ls.get(i).setLineWidth(4);
+            ls.get(i).setValueTextSize(16);
+        }
+        chart.setData(new LineData(dataSets));
 
         // hide description label
         chart.getDescription().setEnabled(false);
@@ -102,9 +168,42 @@ public class ThirdPage extends Fragment {
         Legend legend = chart.getLegend();
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         chart.setExtraOffsets(0, 0, 0, 10);
+    }
+    public void setNdaysOneMenuChart(int d, int menuId){
+        // x축 설정
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setDrawLabels(true);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(dt.getNdaysWOY(d)));
 
-        chart.setData(data);
+        //ArrayList<Menu> menus = db.getMenu();
+        ArrayList<Entry> oneMenu = new ArrayList<Entry>();
+        LineDataSet lineDataSet;
+        ArrayList<String> Ndays = dt.getNdaysFull(d);
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        String[] colorCode = {"#79CBB5","#48B0A6","#4897A6"};
 
-        return v;
+        for(int i=0; i<d; i++){
+            System.out.println(Ndays.get(i));
+            ArrayList<Sale> s = db.getSale(Ndays.get(i));
+            oneMenu.add(new Entry(i,s.get(menuId).qty));
+        }
+        lineDataSet = new LineDataSet(oneMenu,menus.get(menuId).menu_name);
+        lineDataSet.setColor(Color.parseColor(colorCode[0]));
+        lineDataSet.setCircleColor(Color.parseColor(colorCode[0]));
+        lineDataSet.setLineWidth(4);
+        lineDataSet.setValueTextSize(16);
+        dataSets.add(lineDataSet);
+        chart.setData(new LineData(dataSets));
+
+        // hide description label
+        chart.getDescription().setEnabled(false);
+
+        // legend re-positioning
+        Legend legend = chart.getLegend();
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        chart.setExtraOffsets(0, 0, 0, 10);
     }
 }

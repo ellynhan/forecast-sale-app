@@ -2,4 +2,11 @@
     <string name="app_name">Ready</string>
     <string name="open">OPEN</string>
     <string name="close">CLOSE</string>
+    <string-array name="array_selection_standard">
+        <item>전체메뉴</item>
+    </string-array>
+    <string-array name="array_selection_period">
+        <item>일주일</item>
+        <item>한달</item>
+    </string-array>
 </resources>
