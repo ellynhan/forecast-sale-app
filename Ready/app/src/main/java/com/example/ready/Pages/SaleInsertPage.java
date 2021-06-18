@@ -1,6 +1,7 @@
 package com.example.ready.Pages;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -63,6 +64,7 @@ public class SaleInsertPage extends Fragment {
 
     private void saleInsertInit() {
         menus = dbHelper.getMenu();
+        saleQty.clear();
         Button saveBtn, closeBtn;
 
         for(int i = 0; i < menus.size(); i++) {
@@ -86,6 +88,7 @@ public class SaleInsertPage extends Fragment {
             editText.setGravity(Gravity.CENTER);
             editText.setTextSize(16);
             editText.setId(i);
+            editText.setTextColor(Color.BLACK);
 
             tableRow.addView(editText);
 
