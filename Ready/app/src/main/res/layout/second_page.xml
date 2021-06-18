@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 app:mcv_showOtherDates="all"
                 app:mcv_selectionColor="@color/green1"
-            />
+                android:layout_marginTop="30dp"/>
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -46,13 +46,25 @@
                 android:textSize="16sp" />
             </RelativeLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="TEST"/>-->
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="4"-->
-<!--                android:background="@color/white"/>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioGroup"
+            android:orientation="horizontal"
+            android:layout_gravity="right">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="메뉴명"/>
+        </RadioGroup>
+    </LinearLayout>
 </FrameLayout>
