@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.example.ready.Calendar.EventDecorator;
+import com.example.ready.Calendar.GuessDecorator;
 import com.example.ready.Calendar.SaturdayDecorator;
 import com.example.ready.Calendar.SundayDecorator;
 import com.example.ready.Calendar.WeekDayDecorator;
@@ -50,9 +50,9 @@ public class SecondPage extends Fragment {
                 new WeekDayDecorator()
         );
         materialCalendarView.addDecorators(
-                new EventDecorator("20", Color.RED, Collections.singleton(date)),
-                new EventDecorator("10", Color.BLUE, Collections.singleton(date2)),
-                new EventDecorator("5", Color.GREEN, Collections.singleton(date3))
+                new GuessDecorator("20", Color.RED, Collections.singleton(date)),
+                new GuessDecorator("10", Color.BLUE, Collections.singleton(date2)),
+                new GuessDecorator("5", Color.GREEN, Collections.singleton(date3))
         );
 
         // when date is clicked, show up slidingUpPanelLayout
