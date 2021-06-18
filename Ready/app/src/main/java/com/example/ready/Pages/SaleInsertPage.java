@@ -123,7 +123,7 @@ public class SaleInsertPage extends Fragment {
                 slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                 saleDateInit(date);
 
-                sales = dbHelper.getSale(dateString);
+                sales = dbHelper.getSaleWithDate(dateString);
                 loadDBData();
             }
         });

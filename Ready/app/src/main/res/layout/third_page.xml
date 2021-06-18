@@ -101,8 +101,5 @@
             android:layout_height="wrap_content"
             android:text="요일별"
             android:textAlignment="center"/>
-
     </LinearLayout>
-
-
 </FrameLayout>

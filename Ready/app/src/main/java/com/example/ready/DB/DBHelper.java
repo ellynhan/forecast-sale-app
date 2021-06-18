@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.ready.DB.Model.Menu;
 import com.example.ready.DB.Model.Sale;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -88,7 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ArrayList<Sale> getSale(String date) {
+    public ArrayList<Sale> getSaleWithDate(String date) {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Sale> sales = new ArrayList<>();
 
@@ -133,6 +134,43 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return dates;
+    }
+
+    // SecondPage의 수량 데이터 가져오기
+    public ArrayList<String> getSaleDateWithId(int menu_id) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<String> dates = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT date, qty FROM sales WHERE menu_id = ?",
+                new String[] { String.valueOf(menu_id) });
+        if(cursor.moveToFirst()) {
+            do {
+                String date;
+                date = cursor.getString(cursor.getColumnIndex(Sale.DATE));
+                dates.add(date);
+            } while(cursor.moveToNext());
+        }
+
+        return dates;
+    }
+
+    public ArrayList<Integer> getSaleQtyWithId(int menu_id) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Integer> qtys = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT qty FROM sales WHERE menu_id = ?",
+                new String[] { String.valueOf(menu_id) });
+        if(cursor.moveToFirst()) {
+            do {
+                int qty;
+                qty = cursor.getInt(cursor.getColumnIndex(Sale.QTY));
+                qtys.add(qty);
+            } while(cursor.moveToNext());
+        }
+
+        return qtys;
     }
 
     public void insertSale(Sale sale) {
@@ -234,7 +272,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ));
 
         for(int i = 1; i < 31; i++) {
-            values.put(Sale.MENU_ID, 0);
+            values.put(Sale.MENU_ID, 1);
             values.put(Sale.QTY, qty1.get(i));
             values.put(Sale.TIME, 0);
             values.put(Sale.HOLIDAY, 0);
@@ -245,7 +283,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         for(int i = 1; i < 31; i++) {
-            values.put(Sale.MENU_ID, 1);
+            values.put(Sale.MENU_ID, 2);
             values.put(Sale.QTY, qty2.get(i));
             values.put(Sale.TIME, 0);
             values.put(Sale.HOLIDAY, 0);

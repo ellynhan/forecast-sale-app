@@ -146,7 +146,7 @@ public class ThirdPage extends Fragment {
         }
 
         for(int i=0; i<d; i++){
-            ArrayList<Sale> s = db.getSale(Ndays.get(i));
+            ArrayList<Sale> s = db.getSaleWithDate(Ndays.get(i));
             for(int j=0; j<s.size(); j++){
                 m.get(j).add(new Entry(i,s.get(j).qty));
             }
@@ -187,7 +187,7 @@ public class ThirdPage extends Fragment {
 
         for(int i=0; i<d; i++){
             System.out.println(Ndays.get(i));
-            ArrayList<Sale> s = db.getSale(Ndays.get(i));
+            ArrayList<Sale> s = db.getSaleWithDate(Ndays.get(i));
             oneMenu.add(new Entry(i,s.get(menuId).qty));
         }
         lineDataSet = new LineDataSet(oneMenu,menus.get(menuId).menu_name);
