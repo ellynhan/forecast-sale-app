@@ -21,13 +21,14 @@ public class ToolbarMenuPage extends AppCompatActivity {
     final private MenuInsertPage menuInsertPage = new MenuInsertPage();
     final private SaleInsertPage saleInsertPage = new SaleInsertPage();
     final private FragmentManager fragmentManager = getSupportFragmentManager();
-
+    final private FirstPage firstPage = new FirstPage();
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.toolbar_menu_page);
         Button closeBtn = findViewById(R.id.btn_close);
+        Button homeBtn = findViewById(R.id.btn_home);
         LinearLayout menuBtn = findViewById(R.id.menu_btn_group);
         LinearLayout saleBtn = findViewById(R.id.sale_btn_group);
         final ImageView menuImage = findViewById(R.id.menu_btn_image);
@@ -35,7 +36,7 @@ public class ToolbarMenuPage extends AppCompatActivity {
         final TextView menuText = findViewById(R.id.menu_btn_text);
         final TextView saleText = findViewById(R.id.sale_btn_text);
 
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        final FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.insert_frame_layout, menuInsertPage).commitAllowingStateLoss();
 
         closeBtn.setOnClickListener(new View.OnClickListener(){
@@ -45,6 +46,14 @@ public class ToolbarMenuPage extends AppCompatActivity {
                 overridePendingTransition(R.anim.animation_hold,R.anim.animation_to_left);
             }
         });
+        homeBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                finish();
+                overridePendingTransition(R.anim.animation_hold,R.anim.animation_to_left);
+            }
+        });
+
 
         saleBtn.setOnClickListener(new View.OnClickListener(){
             @Override
