@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/firstMenu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,41 +24,53 @@
                     android:layout_margin="15dp"
                     android:padding="15dp"
                     android:orientation="vertical">
-                <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:text="오늘 예측 준비량"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="right">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/sun"
+                            android:layout_marginRight="5dp"/>
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="20dp"
                             android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:text="오늘 예측 준비량"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:textSize="20dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:id="@+id/today_weather_textview"
-                            android:text="맑음"/>
-                </RelativeLayout>
+                            android:id="@+id/today_weather_textview"/>
+                    </LinearLayout>
+                </LinearLayout>
                 <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey2"
+                        android:id="@+id/today_date_textview"/>
                     <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/grey2"
-                            android:id="@+id/today_date_textview"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:textSize="12dp"
-                            android:textColor="@color/grey1"
-                            android:text="최고 최저\n20    10"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:textSize="12dp"
+                        android:textColor="@color/grey1"
+                        android:id="@+id/today_maxmin"
+                        android:textAlignment="viewEnd"/>
                 </RelativeLayout>
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -76,9 +89,11 @@
                 android:layout_margin="15dp"
                 android:padding="15dp"
                 android:orientation="vertical">
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -86,16 +101,25 @@
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:text="내일 예측 준비량"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:id="@+id/tomorrow_weather_textview"
-                        android:text="맑음"/>
-                </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="right">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/sun"
+                            android:layout_marginRight="10dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:id="@+id/tomorrow_weather_textview"/>
+                    </LinearLayout>
+                </LinearLayout>
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -110,7 +134,8 @@
                         android:layout_alignParentRight="true"
                         android:textSize="12dp"
                         android:textColor="@color/grey1"
-                        android:text="최고 최저\n20    10"/>
+                        android:id="@+id/tmr_maxmin"
+                        android:textAlignment="viewEnd"/>
                 </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -135,6 +160,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="일주일 매출 통계"
+                    android:layout_marginBottom="5dp"
                     android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold" />

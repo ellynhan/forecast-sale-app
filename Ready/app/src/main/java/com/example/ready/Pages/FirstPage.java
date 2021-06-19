@@ -28,11 +28,19 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class FirstPage extends Fragment {
     public static FirstPage newInstance() { return new FirstPage(); }
-    private TextView todayDate,tomorrowDate,weekRange,todayWeather, tomorrowWeahter;
+    private TextView todayDate,tomorrowDate,weekRange,todayWeather, tomorrowWeahter,todayMM, tmrMM;
     private RecyclerView recyclerViewToday, recyclerViewTomorrow;
     private RecyclerViewAdapter adapterToday, adapterTomorrow;
     private ArrayList<RecyclerViewItem> foreCastTodayItems,foreCastTomorrowItems;
@@ -50,6 +58,8 @@ public class FirstPage extends Fragment {
         tomorrowDate = view.findViewById(R.id.tomorrow_date_textview);
         todayWeather = view.findViewById(R.id.today_weather_textview);
         tomorrowWeahter = view.findViewById(R.id.tomorrow_weather_textview);
+        todayMM = view.findViewById(R.id.today_maxmin);
+        tmrMM = view.findViewById(R.id.tmr_maxmin);
         weekRange = view.findViewById(R.id.week_range_textview);
         barChart = view.findViewById(R.id.barchart);
         adapterToday = new RecyclerViewAdapter();
@@ -59,7 +69,39 @@ public class FirstPage extends Fragment {
         dt = new DateTime();
         db = DBHelper.getInstance(view.getContext());
         w = new Weather();
-        System.out.println(dt.getTime());
+        String[] weathers = {"맑음","비","비/눈","눈","소나기","빗방울","빗방울/눈날림","눈날림"};
+        String pty="",tmx="", tmn="", tmr_tmx="", tmr_tmn="",tmr_pty="";
+        String weatherResult = "";
+        final int[] parseIndex ={0,0,0,0,0,0};
+        final String[] searchKeyword = {"PTY","TMN","TMX","TMR_PTY","TMR_TMN","TMR_TMX"};
+        Future<String> future = Executors.newSingleThreadExecutor().submit(new Callable<String>(){
+            @Override
+            public String call() throws Exception {
+                String result=w.getWeather("98","77");
+                return result;
+            }
+        });
+        try {
+            weatherResult = future.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(weatherResult);
+        for(int i=0; i<6; i++){
+            parseIndex[i]=weatherResult.indexOf(searchKeyword[i]);
+        }
+        pty = weatherResult.substring(parseIndex[0]+4,parseIndex[0]+5);
+        tmx = weatherResult.substring(parseIndex[1]+4,parseIndex[2]);
+        tmn = weatherResult.substring(parseIndex[2]+4,parseIndex[3]);
+        tmr_pty = weatherResult.substring(parseIndex[3]+8,parseIndex[3]+9);
+        tmr_tmx = weatherResult.substring(parseIndex[4]+8,parseIndex[5]);
+        tmr_tmn = weatherResult.substring(parseIndex[5]+8,weatherResult.length());
+        todayWeather.setText(weathers[Integer.parseInt(pty)]);
+        tomorrowWeahter.setText(weathers[Integer.parseInt(tmr_pty)]);
+        todayMM.setText("최고   최저\n"+tmx+"   "+tmn);
+        tmrMM.setText("최고   최저\n"+tmr_tmx+"   "+tmr_tmn);
         ArrayList<Menu> menus = db.getMenu();
         for(int i=0; i<menus.size(); i++){
             foreCastTodayItems.add(new RecyclerViewItem(menus.get(i).menu_name,i+1));
