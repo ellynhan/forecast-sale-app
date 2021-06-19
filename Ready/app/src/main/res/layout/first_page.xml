@@ -40,6 +40,7 @@
                             android:textSize="20dp"
                             android:textStyle="bold"
                             android:textColor="@color/black"
+                            android:id="@+id/today_weather_textview"
                             android:text="맑음"/>
                 </RelativeLayout>
                 <RelativeLayout
@@ -49,7 +50,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/grey2"
-                            android:text="2021년 5월 3일"/>
+                            android:id="@+id/today_date_textview"/>
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -92,6 +93,7 @@
                         android:textSize="20dp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
+                        android:id="@+id/tomorrow_weather_textview"
                         android:text="맑음"/>
                 </RelativeLayout>
                 <RelativeLayout
@@ -101,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey2"
-                        android:text="2021년 5월 3일"/>
+                        android:id="@+id/tomorrow_date_textview"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -143,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="2021년 4월 24일 ~ 2021년 4월 30일"
+                    android:id="@+id/week_range_textview"
                     android:textColor="@color/grey2" />
             </LinearLayout>
         </LinearLayout>

@@ -14,10 +14,41 @@ import java.util.Locale;
 
 
 public class DateTime {
-    public String getCurrentDate(){
+    public int getTime(){
+        SimpleDateFormat sdf = new SimpleDateFormat("HH", Locale.getDefault());
+        String now = sdf.format(new Date().getTime());
+        return Integer.parseInt(now);
+    }
+
+    public String getTomorrowDate(){
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE,1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        String tomorrow = sdf.format(c.getTime());
+        return tomorrow; //2021xxxx ~
+    }
+
+    public String getTodayDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         String currentDate = sdf.format(new Date());
         return currentDate; //2021xxxx ~
+    }
+
+    public String getToday() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());
+        String today = sdf.format(new Date().getTime());
+        return today;
+    }
+
+    public String getTomorrow(){
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE,1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());
+        String tomorrow = sdf.format(c.getTime());
+
+        return tomorrow;
     }
 
     public String getCurrentTime(){
