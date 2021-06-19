@@ -35,7 +35,8 @@ import java.util.ArrayList;
 
 public class ThirdPage extends Fragment {
     private LineChart chart;
-    private PieChart piechart;
+    private PieChart piechartDay;
+    private PieChart piechartWeather;
     private DBHelper db;
     private DateTime dt;
     private ArrayList<Menu> menus;
@@ -48,7 +49,8 @@ public class ThirdPage extends Fragment {
         db = DBHelper.getInstance(v.getContext());
         dt = new DateTime();
         chart = v.findViewById(R.id.lineChart);
-        piechart = v.findViewById(R.id.piechart);
+        piechartDay = v.findViewById(R.id.piechart_day);
+        piechartWeather = v.findViewById(R.id.piechart_weather);
         menus = db.getMenu();
         ArrayList<String> menuList = new ArrayList<String>();
         days = 7;
@@ -111,7 +113,8 @@ public class ThirdPage extends Fragment {
                 // literally nothing.
             }
         });
-        setDonutChartByWeather();
+        setPieChartByDay();
+        setPieChartByWeather();
         return v;
     }
 
@@ -163,14 +166,46 @@ public class ThirdPage extends Fragment {
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         chart.setExtraOffsets(0, 0, 0, 10);
     }
-    public void setDonutChartByWeather(){
-        piechart.setUsePercentValues(true);
-        piechart.getDescription().setEnabled(false);
-        piechart.setDragDecelerationFrictionCoef(0.95f);
+    public void setPieChartByWeather(){
+        piechartWeather.setUsePercentValues(true);
+        piechartWeather.getDescription().setEnabled(false);
+        piechartWeather.setDragDecelerationFrictionCoef(0.95f);
 
-        piechart.setDrawHoleEnabled(false);
-        piechart.setHoleColor(Color.BLACK);
-        piechart.setTransparentCircleRadius(61f);
+        piechartWeather.setDrawHoleEnabled(false);
+        piechartWeather.setHoleColor(Color.BLACK);
+        piechartWeather.setTransparentCircleRadius(61f);
+
+        ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
+
+        yValues.add(new PieEntry(12f,"없음"));
+        yValues.add(new PieEntry(12f,"비"));
+        yValues.add(new PieEntry(12f,"비/눈"));
+        yValues.add(new PieEntry(12f,"눈"));
+        yValues.add(new PieEntry(12f,"소나기"));
+        yValues.add(new PieEntry(12f,"빗방울"));
+        yValues.add(new PieEntry(12f,"빗방울/눈날림"));
+        yValues.add(new PieEntry(12f,"눈날림"));
+        PieDataSet dataSet = new PieDataSet(yValues,"");
+        dataSet.setColors(Color.parseColor("#D5F5E3"),Color.parseColor("#ABEBC6"),Color.parseColor("#A2D9CE"),
+                Color.parseColor("#58D68D"),Color.parseColor("#28B463"),Color.parseColor("#138D75"),
+                Color.parseColor("#0E6655"),Color.parseColor("#0B5345"));
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+
+        PieData data = new PieData((dataSet));
+        data.setValueTextSize(20f);
+        data.setValueTextColor(Color.YELLOW);
+
+        piechartWeather.setData(data);
+    }
+    public void setPieChartByDay(){
+        piechartDay.setUsePercentValues(true);
+        piechartDay.getDescription().setEnabled(false);
+        piechartDay.setDragDecelerationFrictionCoef(0.95f);
+
+        piechartDay.setDrawHoleEnabled(false);
+        piechartDay.setHoleColor(Color.BLACK);
+        piechartDay.setTransparentCircleRadius(61f);
 
         ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
 
@@ -194,7 +229,6 @@ public class ThirdPage extends Fragment {
         data.setValueTextSize(20f);
         data.setValueTextColor(Color.YELLOW);
 
-        piechart.setData(data);
+        piechartDay.setData(data);
     }
-
 }
