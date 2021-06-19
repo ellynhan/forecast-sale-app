@@ -54,7 +54,6 @@ public class ToolbarMenuPage extends AppCompatActivity {
             }
         });
 
-
         saleBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

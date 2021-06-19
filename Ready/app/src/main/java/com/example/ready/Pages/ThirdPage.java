@@ -220,57 +220,9 @@ public class ThirdPage extends Fragment {
         Legend legend = lineChart.getLegend();
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         lineChart.setExtraOffsets(0, 0, 0, 10);
+        lineChart.animateY(1000);
     }
-    public void setPieChartByWeather(int d, int menuId){
-        piechartWeather.setUsePercentValues(true);
-        piechartWeather.getDescription().setEnabled(false);
-        piechartWeather.setDragDecelerationFrictionCoef(0.95f);
-        piechartWeather.setDrawHoleEnabled(false);
-        piechartWeather.setHoleColor(Color.BLACK);
-        piechartWeather.setTransparentCircleRadius(61f);
 
-        int[] sumPerWeather = {0,0,0,0,0,0,0,0};//일:0 월:1 화:2 수:3 목:4 금:5 토:6
-        int[] numsPerWeather = {0,0,0,0,0,0,0,0};
-        float[]  salesPerWeather = {0,0,0,0,0,0,0,0};
-        String[] weathers = {"맑음","비","비/눈","눈","소나기","빗방울","빗방울/눈날림","눈날림"};
-        for(int i=0; i<d; i++){
-            for(int j=0; j<sales.get(i).size(); j++){
-                if(menuId==0||sales.get(i).get(j).menu_id==menuId){
-                    int w = sales.get(i).get(j).rain;
-                    numsPerWeather[w]+=1;
-                    sumPerWeather[w]+=sales.get(i).get(j).qty;
-                }
-            }
-        }
-        ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
-        for(int i=0; i<8; i++){
-            if(sumPerWeather[i]!=0){
-                salesPerWeather[i]=(float)sumPerWeather[i]/numsPerWeather[i];
-                yValues.add(new PieEntry(salesPerWeather[i],weathers[i]));
-            }
-        }
-
-
-//        yValues.add(new PieEntry(12f,"비"));
-//        yValues.add(new PieEntry(12f,"비/눈"));
-//        yValues.add(new PieEntry(12f,"눈"));
-//        yValues.add(new PieEntry(12f,"소나기"));
-//        yValues.add(new PieEntry(12f,"빗방울"));
-//        yValues.add(new PieEntry(12f,"빗방울/눈날림"));
-//        yValues.add(new PieEntry(12f,"눈날림"));
-        PieDataSet dataSet = new PieDataSet(yValues,"");
-        dataSet.setColors(Color.parseColor("#D5F5E3"),Color.parseColor("#ABEBC6"),Color.parseColor("#A2D9CE"),
-                Color.parseColor("#58D68D"),Color.parseColor("#28B463"),Color.parseColor("#138D75"),
-                Color.parseColor("#0E6655"),Color.parseColor("#0B5345"));
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
-
-        PieData data = new PieData((dataSet));
-        data.setValueTextSize(20f);
-        data.setValueTextColor(Color.YELLOW);
-
-        piechartWeather.setData(data);
-    }
     public void setPieChartByDay(int d, int menuId) throws ParseException {
         piechartDay.setUsePercentValues(true);
         piechartDay.getDescription().setEnabled(false);
@@ -306,7 +258,48 @@ public class ThirdPage extends Fragment {
         PieData data = new PieData((dataSet));
         data.setValueTextSize(20f);
         data.setValueTextColor(Color.YELLOW);
-
+        piechartDay.animateX(1500);
         piechartDay.setData(data);
+    }
+
+    public void setPieChartByWeather(int d, int menuId){
+        piechartWeather.setUsePercentValues(true);
+        piechartWeather.getDescription().setEnabled(false);
+        piechartWeather.setDragDecelerationFrictionCoef(0.95f);
+        piechartWeather.setDrawHoleEnabled(false);
+        piechartWeather.setHoleColor(Color.BLACK);
+        piechartWeather.setTransparentCircleRadius(61f);
+
+        int[] sumPerWeather = {0,0,0,0,0,0,0,0};//일:0 월:1 화:2 수:3 목:4 금:5 토:6
+        int[] numsPerWeather = {0,0,0,0,0,0,0,0};
+        float[]  salesPerWeather = {0,0,0,0,0,0,0,0};
+        String[] weathers = {"맑음","비","비/눈","눈","소나기","빗방울","빗방울/눈날림","눈날림"};
+        for(int i=0; i<d; i++){
+            for(int j=0; j<sales.get(i).size(); j++){
+                if(menuId==0||sales.get(i).get(j).menu_id==menuId){
+                    int w = sales.get(i).get(j).rain;
+                    numsPerWeather[w]+=1;
+                    sumPerWeather[w]+=sales.get(i).get(j).qty;
+                }
+            }
+        }
+        ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
+        for(int i=0; i<8; i++){
+            if(sumPerWeather[i]!=0){
+                salesPerWeather[i]=(float)sumPerWeather[i]/numsPerWeather[i];
+                yValues.add(new PieEntry(salesPerWeather[i],weathers[i]));
+            }
+        }
+        PieDataSet dataSet = new PieDataSet(yValues,"");
+        dataSet.setColors(Color.parseColor("#D5F5E3"),Color.parseColor("#ABEBC6"),Color.parseColor("#A2D9CE"),
+                Color.parseColor("#58D68D"),Color.parseColor("#28B463"),Color.parseColor("#138D75"),
+                Color.parseColor("#0E6655"),Color.parseColor("#0B5345"));
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+
+        PieData data = new PieData((dataSet));
+        data.setValueTextSize(20f);
+        data.setValueTextColor(Color.YELLOW);
+        piechartWeather.setData(data);
     }
 }
