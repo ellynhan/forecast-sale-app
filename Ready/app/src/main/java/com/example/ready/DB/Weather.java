@@ -8,16 +8,38 @@ import java.net.URL;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+
 public class Weather extends Thread{
-    public String func(String date, String time, String lat, String lng) throws IOException, JSONException {
+    private DateTime dt;
+    public String getWeather(String lat, String lng) throws IOException, JSONException {
         String endPoint =  "http://apis.data.go.kr/1360000/VilageFcstInfoService/";
         String serviceKey = "인증키";
         String pageNo = "1";
         String numOfRows = "10";
-        String baseDate = date; //원하는 날짜 20210526
-        String baseTime = time; //원하는 시간 1100
+        String baseDate = dt.getTodayDate(); //발표 날짜 20210526
+        String baseTime = "1100"; //발표 시간 1100
         String nx = lat; //위도 98
         String ny = lng; //경도 77
+
+        dt= new DateTime();
+        int currentTime = dt.getTime();
+        if(currentTime<2){
+            //어제 날씨 가져와야함 날씨저장하는 DB필요.
+        }else if(currentTime<5){
+            baseTime = "0200";
+        } if(currentTime<8){
+            baseTime = "0500";
+        }else if(currentTime<11){
+            baseTime = "0800";
+        }else if(currentTime<14){
+            baseTime = "1100";
+        }else if(currentTime<17){
+            baseTime = "1400";
+        }else if(currentTime<20){
+            baseTime = "1700";
+        }else if(currentTime<23){
+            baseTime = "2000";
+        }
 
         String s = endPoint+"getVilageFcst?serviceKey="+serviceKey
                 +"&pageNo=" + pageNo

@@ -38,7 +38,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(Menu.DROP_TABLE);
         db.execSQL(Sale.DROP_TABLE);
-
         onCreate(db);
     }
 
@@ -98,20 +97,17 @@ public class DBHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()) {
             do {
                 Sale sale = new Sale();
-
-                sale.setId(cursor.getInt(cursor.getColumnIndex(Sale.MENU_ID)));
+              
                 sale.setMenuId(cursor.getInt(cursor.getColumnIndex(Sale.MENU_ID)));
                 sale.setSaleQty(cursor.getInt(cursor.getColumnIndex(Sale.QTY)));
 //                sale.setSaleWeather(cursor.getInt(cursor.getColumnIndex(Sale.WEATHER)));
                 sale.setSaleDate(cursor.getString(cursor.getColumnIndex(Sale.DATE)));
                 sale.setSaleTime(cursor.getInt(cursor.getColumnIndex(Sale.TIME)) > 0);
                 sale.setSaleHoliday(cursor.getInt(cursor.getColumnIndex(Sale.HOLIDAY)) > 0);
-
                 sales.add(sale);
             } while(cursor.moveToNext());
         }
         cursor.close();
-
         return sales;
     }
 

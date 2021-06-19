@@ -20,7 +20,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity{
     final private FirstPage firstPage = new FirstPage();
     final private SecondPage secondPage = new SecondPage();
-    final private ThirdPage thirdPage= new ThirdPage();
+    final private ThirdPage thirdPage = new ThirdPage();
+    final private ForthPage forthPage = new ForthPage();
     final private FragmentManager fragmentManager = getSupportFragmentManager();
 
     final private Weather weather = new Weather();
@@ -84,6 +85,10 @@ public class MainActivity extends AppCompatActivity{
                     }
                     case R.id.stats_tab: {
                         transaction.replace(R.id.frame_layout, thirdPage).commitAllowingStateLoss();
+                        break;
+                    }
+                    case R.id.setting_tab: {
+                        transaction.replace(R.id.frame_layout, forthPage).commitAllowingStateLoss();
                         break;
                     }
                 }
