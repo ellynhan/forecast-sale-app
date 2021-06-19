@@ -148,65 +148,47 @@ public class SaleInsertPage extends Fragment {
         @Override
         public void onClick(View v) {
             Sale sale = new Sale();
+            sale.date = dateString;
+            sale.time = isNoon;
+            sale.holiday = isHoliday;
 
-            if(sales.isEmpty()) {
-                sale.date = dateString;
-                sale.holiday = isHoliday;
-                sale.time = isNoon;
+            for (int i = 0; i < saleQty.size(); i++) {
+                sale.menu_id = menus.get(i)._id;
 
-                for (int i = 0; i < saleQty.size(); i++) {
-                    sale.menu_id = menus.get(i)._id;
-
-                    try {
-                        sale.qty = Integer.parseInt(saleQty.get(i).getText().toString());
-
-                        dbHelper.insertSale(sale);
-                        System.out.println(menus.get(i).menu_name + ": DB INSERT");
-                        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        System.out.println("DB INSERT FAIL");
-                    }
-                }
-            }
-
-            else {
-                sale.date = dateString;
-                sale.time = isNoon;
-
-                for (int i = 0; i < saleQty.size(); i++) {
-                    sale.menu_id = menus.get(i)._id;
+                try { // db update
                     sale.qty = Integer.parseInt(saleQty.get(i).getText().toString());
 
-                    try {
-                        dbHelper.updateSale(sale);
-                        System.out.println(menus.get(i).menu_name + ": DB UPDATE");
-                        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        System.out.println("DB UPDATE FAIL");
-                    }
+                    int index = sales.get(i).menu_id - 1;
+                    sale._id = sales.get(index)._id;
+
+                    dbHelper.updateSale(sale);
+                } catch(NumberFormatException e) { // EditText가 빈 칸
+                    System.out.println("EditText is empty");
+                } catch(IndexOutOfBoundsException e) { // db insert
+                    dbHelper.insertSale(sale);
+                    System.out.println("DB INSERT");
                 }
             }
+
+            slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }
     };
 
     private void loadDBData() {
-        if(sales.isEmpty()) {
-            for(int i = 0; i < saleQty.size(); i++)
-                saleQty.get(i).setText("");
-            radioGroup.clearCheck();
+        for(int i = 0; i < saleQty.size(); i++)
+            saleQty.get(i).setText("");
+        radioGroup.clearCheck();
+
+        System.out.println("DB LOAD");
+
+        for (int i = 0; i < sales.size(); i++) {
+            int index = sales.get(i).menu_id - 1;
+            saleQty.get(index).setText(String.valueOf(sales.get(i).qty));
         }
 
-        else {
-            System.out.println("DB LOAD");
-            System.out.println(sales.size());
-            System.out.println(saleQty.size());
-            for (int i = 0; i < sales.size(); i++)
-                saleQty.get(i).setText(String.valueOf(sales.get(i).qty));
-
+        if(!sales.isEmpty()) {
             RadioButton radioButton;
-            if(sales.get(0).time)
+            if (sales.get(0).time)
                 radioButton = v.findViewById(R.id.noon);
             else
                 radioButton = v.findViewById(R.id.morning);

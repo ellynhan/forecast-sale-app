@@ -31,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(Menu.CREATE_TABLE);
         db.execSQL(Sale.CREATE_TABLE);
 
-        dbSeedTest(db);
+       dbSeedTest(db);
     }
 
     @Override
@@ -52,7 +52,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 Menu menu = new Menu();
 
                 menu.setId(cursor.getInt(cursor.getColumnIndex("_id")));
-                menu.setMenuId(cursor.getInt(cursor.getColumnIndex(Menu.MENU_ID)));
                 menu.setMenuName(cursor.getString(cursor.getColumnIndex(Menu.MENU_NAME)));
                 menu.setMenuPrice(cursor.getInt(cursor.getColumnIndex(Menu.MENU_PRICE)));
 
@@ -68,7 +67,6 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(Menu.MENU_ID, menu.menu_id);
         values.put(Menu.MENU_NAME, menu.menu_name);
         values.put(Menu.MENU_PRICE, menu.menu_price);
 
@@ -101,6 +99,7 @@ public class DBHelper extends SQLiteOpenHelper {
             do {
                 Sale sale = new Sale();
 
+                sale.setId(cursor.getInt(cursor.getColumnIndex(Sale.MENU_ID)));
                 sale.setMenuId(cursor.getInt(cursor.getColumnIndex(Sale.MENU_ID)));
                 sale.setSaleQty(cursor.getInt(cursor.getColumnIndex(Sale.QTY)));
 //                sale.setSaleWeather(cursor.getInt(cursor.getColumnIndex(Sale.WEATHER)));
@@ -193,10 +192,44 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
+        values.put(Sale.ID, sale._id);
+        values.put(Sale.MENU_ID, sale.menu_id);
         values.put(Sale.QTY, sale.qty);
+        values.put(Sale.SKY, sale.sky);
+        values.put(Sale.RAIN, sale.rain);
+        values.put(Sale.DATE, sale.date);
         values.put(Sale.TIME, sale.time);
+        values.put(Sale.HOLIDAY, sale.holiday);
 
-        db.update(Sale.TABLE_NAME, values, "menu_id = ? AND date = ?", new String[] { String.valueOf(sale.menu_id), sale.date });
+        db.updateWithOnConflict(
+                Sale.TABLE_NAME,
+                values,
+                "menu_id = ? AND date = ?",
+                new String[] { String.valueOf(sale.menu_id), sale.date },
+                SQLiteDatabase.CONFLICT_REPLACE);
+        db.close();
+    }
+
+    public void upsertSale(Sale sale) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(Sale.MENU_ID, sale.menu_id);
+        values.put(Sale.QTY, sale.qty);
+        values.put(Sale.SKY, sale.sky);
+        values.put(Sale.RAIN, sale.rain);
+        values.put(Sale.DATE, sale.date);
+        values.put(Sale.TIME, sale.time);
+        values.put(Sale.HOLIDAY, sale.holiday);
+
+        db.updateWithOnConflict(
+                Sale.TABLE_NAME,
+                values,
+                "menu_id = ? AND date = ?",
+                new String[] { String.valueOf(sale.menu_id), sale.date },
+                SQLiteDatabase.CONFLICT_REPLACE
+        );
+
         db.close();
     }
 

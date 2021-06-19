@@ -26,6 +26,6 @@ public class GuessDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new AddTextToDates(String.valueOf(qty), Color.BLACK));
+        view.addSpan(new AddTextToDates(String.valueOf(qty), Color.GRAY));
     }
 }

@@ -170,7 +170,6 @@ public class MenuInsertPage extends Fragment {
 
                         try {
                             Menu menu = new Menu(
-                                    0,
                                     menuEditText.get(j).getText().toString(),
                                     Integer.parseInt(menuEditText.get(j + 1).getText().toString())
                             );

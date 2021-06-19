@@ -57,6 +57,7 @@ public class SecondPage extends Fragment {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                panelInit();
             }
         });
     }
@@ -82,6 +83,7 @@ public class SecondPage extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int menu_id = (int) id;
+                System.out.println(menu_id);
 
                 if(menu_id != 0) {
                     materialCalendarView.removeDecorators();
@@ -92,12 +94,14 @@ public class SecondPage extends Fragment {
                             new WeekDayDecorator()
                     );
 
-                    ArrayList<String> dates = dbHelper.getSaleDateWithId(menu_id - 1);
-                    ArrayList<Integer> qtys = dbHelper.getSaleQtyWithId(menu_id - 1);
+                    ArrayList<String> dates = dbHelper.getSaleDateWithId(menu_id);
+                    ArrayList<Integer> qtys = dbHelper.getSaleQtyWithId(menu_id);
 
                     for(int i = 0; i < dates.size(); i++) {
                         String date = dates.get(i);
                         int qty = qtys.get(i);
+
+                        System.out.println("DATE " + date + " QTY " + qty);
 
                         materialCalendarView.addDecorator(
                                 new GuessDecorator(date, qty)
@@ -111,4 +115,7 @@ public class SecondPage extends Fragment {
         });
     }
 
+    private void panelInit() {
+
+    }
 }
