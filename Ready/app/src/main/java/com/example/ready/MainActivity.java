@@ -33,8 +33,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Intent intent = new Intent(this, LoadingActivity.class);
+        startActivity(intent);
         setContentView(R.layout.activity_main);
-
 //        db = dbHelper.getReadableDatabase();
 
         toolbarBtn = findViewById(R.id.toolbarBtn);
