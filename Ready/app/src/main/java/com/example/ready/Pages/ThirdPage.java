@@ -100,7 +100,7 @@ public class ThirdPage extends Fragment {
             //7일간의 데이터가 있는지 확인
             Boolean fullData = Boolean.TRUE;
             for(int i=0; i<31; i++){
-                ArrayList<Sale> oneDaySale = db.getSale(Ndays.get(i));
+                ArrayList<Sale> oneDaySale = db.getSaleWithDate(Ndays.get(i));
                 if(oneDaySale.size()==0 && i<7){
                     fullData = Boolean.FALSE;
                     break;
@@ -195,7 +195,7 @@ public class ThirdPage extends Fragment {
             menuEntryArray.add(new ArrayList<Entry>());
         }
         for(int i=0; i<d; i++){
-            ArrayList<Sale> s = db.getSale(Ndays.get(d-1-i));
+            ArrayList<Sale> s = db.getSaleWithDate(Ndays.get(d-1-i));
             for(int j=0; j<s.size(); j++){
                 menuEntryArray.get(j).add(new Entry(i,s.get(j).qty));
             }
