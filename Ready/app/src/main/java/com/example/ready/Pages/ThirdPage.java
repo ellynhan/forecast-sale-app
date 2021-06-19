@@ -1,6 +1,5 @@
 package com.example.ready.Pages;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,32 +17,31 @@ import com.example.ready.DB.DBHelper;
 import com.example.ready.DB.DateTime;
 import com.example.ready.DB.Model.Sale;
 import com.example.ready.DB.Model.Menu;
-import com.example.ready.MainActivity;
 import com.example.ready.R;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 public class ThirdPage extends Fragment {
     private LineChart chart;
+    private PieChart piechartDay;
+    private PieChart piechartWeather;
     private DBHelper db;
     private DateTime dt;
     private ArrayList<Menu> menus;
     private int days;
-    private int currStats;
-    private int chartWidth;
+    private int currMenu;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,16 +49,19 @@ public class ThirdPage extends Fragment {
         db = DBHelper.getInstance(v.getContext());
         dt = new DateTime();
         chart = v.findViewById(R.id.lineChart);
+        piechartDay = v.findViewById(R.id.piechart_day);
+        piechartWeather = v.findViewById(R.id.piechart_weather);
         menus = db.getMenu();
         ArrayList<String> menuList = new ArrayList<String>();
         days = 7;
-        currStats = 0;
+        currMenu = 0;
         final Spinner stats_spinner = v.findViewById(R.id.spinner_stats_standard);
         Spinner period_spinner = v.findViewById(R.id.spinner_period);
         menuList.add("전체 메뉴");
         for(int i=0; i<menus.size(); i++){
             menuList.add(menus.get(i).menu_name);
         }
+
         ArrayAdapter<String> stats_adapter = new ArrayAdapter<String>(v.getContext(), R.layout.spinner_list, menuList);
         ArrayAdapter<CharSequence> period_adapter = ArrayAdapter.createFromResource(v.getContext(), R.array.array_selection_period, R.layout.spinner_list);
         stats_adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -78,14 +79,8 @@ public class ThirdPage extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 System.out.println("Spinner listner");
-                int Id = (int)id -1;
-                if(id==0){
-                    setNdaysChart(days);
-                    currStats=0;
-                }else{
-                    setNdaysOneMenuChart(days,Id);
-                    currStats=Id+1;
-                }
+                currMenu = (int) id;
+                setNdaysLineChart(days,currMenu);
                 chart.notifyDataSetChanged();
                 chart.invalidate();
             }
@@ -108,11 +103,7 @@ public class ThirdPage extends Fragment {
                     isChanged = 1;
                 }
                 if(isChanged == 1){
-                    if(currStats == 0){
-                        setNdaysChart(days);
-                    }else{
-                        setNdaysOneMenuChart(days,currStats-1);
-                    }
+                    setNdaysLineChart(days,currMenu);
                     chart.notifyDataSetChanged();
                     chart.invalidate();
                 }
@@ -122,10 +113,12 @@ public class ThirdPage extends Fragment {
                 // literally nothing.
             }
         });
+        setPieChartByDay();
+        setPieChartByWeather();
         return v;
     }
 
-    public void setNdaysChart(int d){
+    public void setNdaysLineChart(int d, int menuId){
         // x축 설정
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -152,7 +145,11 @@ public class ThirdPage extends Fragment {
             }
         }
         for(int i=0; i<menus.size(); i++){
-            ls.add(new LineDataSet(m.get(i),menus.get(i).menu_name));
+            if(menuId==0||menuId==i+1){
+                ls.add(new LineDataSet(m.get(i),menus.get(i).menu_name));
+            }
+        }
+        for(int i=0; i<ls.size(); i++){
             dataSets.add(ls.get(i));
             ls.get(i).setColor(Color.parseColor(colorCode[i]));
             ls.get(i).setCircleColor(Color.parseColor(colorCode[i]));
@@ -169,41 +166,69 @@ public class ThirdPage extends Fragment {
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         chart.setExtraOffsets(0, 0, 0, 10);
     }
-    public void setNdaysOneMenuChart(int d, int menuId){
-        // x축 설정
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(1f);
-        xAxis.setDrawLabels(true);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(dt.getNdaysWOY(d)));
+    public void setPieChartByWeather(){
+        piechartWeather.setUsePercentValues(true);
+        piechartWeather.getDescription().setEnabled(false);
+        piechartWeather.setDragDecelerationFrictionCoef(0.95f);
 
-        //ArrayList<Menu> menus = db.getMenu();
-        ArrayList<Entry> oneMenu = new ArrayList<Entry>();
-        LineDataSet lineDataSet;
-        ArrayList<String> Ndays = dt.getNdaysFull(d);
-        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        String[] colorCode = {"#79CBB5","#48B0A6","#4897A6"};
+        piechartWeather.setDrawHoleEnabled(false);
+        piechartWeather.setHoleColor(Color.BLACK);
+        piechartWeather.setTransparentCircleRadius(61f);
 
-        for(int i=0; i<d; i++){
-            System.out.println(Ndays.get(i));
-            ArrayList<Sale> s = db.getSale(Ndays.get(i));
-            oneMenu.add(new Entry(i,s.get(menuId).qty));
-        }
-        lineDataSet = new LineDataSet(oneMenu,menus.get(menuId).menu_name);
-        lineDataSet.setColor(Color.parseColor(colorCode[0]));
-        lineDataSet.setCircleColor(Color.parseColor(colorCode[0]));
-        lineDataSet.setLineWidth(4);
-        lineDataSet.setValueTextSize(16);
-        dataSets.add(lineDataSet);
-        chart.setData(new LineData(dataSets));
+        ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
 
-        // hide description label
-        chart.getDescription().setEnabled(false);
+        yValues.add(new PieEntry(12f,"없음"));
+        yValues.add(new PieEntry(12f,"비"));
+        yValues.add(new PieEntry(12f,"비/눈"));
+        yValues.add(new PieEntry(12f,"눈"));
+        yValues.add(new PieEntry(12f,"소나기"));
+        yValues.add(new PieEntry(12f,"빗방울"));
+        yValues.add(new PieEntry(12f,"빗방울/눈날림"));
+        yValues.add(new PieEntry(12f,"눈날림"));
+        PieDataSet dataSet = new PieDataSet(yValues,"");
+        dataSet.setColors(Color.parseColor("#D5F5E3"),Color.parseColor("#ABEBC6"),Color.parseColor("#A2D9CE"),
+                Color.parseColor("#58D68D"),Color.parseColor("#28B463"),Color.parseColor("#138D75"),
+                Color.parseColor("#0E6655"),Color.parseColor("#0B5345"));
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
 
-        // legend re-positioning
-        Legend legend = chart.getLegend();
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        chart.setExtraOffsets(0, 0, 0, 10);
+        PieData data = new PieData((dataSet));
+        data.setValueTextSize(20f);
+        data.setValueTextColor(Color.YELLOW);
+
+        piechartWeather.setData(data);
+    }
+    public void setPieChartByDay(){
+        piechartDay.setUsePercentValues(true);
+        piechartDay.getDescription().setEnabled(false);
+        piechartDay.setDragDecelerationFrictionCoef(0.95f);
+
+        piechartDay.setDrawHoleEnabled(false);
+        piechartDay.setHoleColor(Color.BLACK);
+        piechartDay.setTransparentCircleRadius(61f);
+
+        ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
+
+        yValues.add(new PieEntry(15f,"월요일"));
+        yValues.add(new PieEntry(15f,"화요일"));
+        yValues.add(new PieEntry(15f,"수요일"));
+        yValues.add(new PieEntry(15f,"목요일"));
+        yValues.add(new PieEntry(15f,"금요일"));
+        yValues.add(new PieEntry(15f,"토요일"));
+        yValues.add(new PieEntry(15f,"일요일"));
+
+        PieDataSet dataSet = new PieDataSet(yValues,"");
+        dataSet.setColors(Color.parseColor("#D5F5E3"),Color.parseColor("#ABEBC6"),
+                Color.parseColor("#58D68D"),Color.parseColor("#28B463"),Color.parseColor("#138D75"),
+                Color.parseColor("#0E6655"),Color.parseColor("#0B5345"));
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+//        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+
+        PieData data = new PieData((dataSet));
+        data.setValueTextSize(20f);
+        data.setValueTextColor(Color.YELLOW);
+
+        piechartDay.setData(data);
     }
 }
