@@ -79,9 +79,20 @@
             android:layout_marginVertical="16dp"
             android:text="전체 매출 통계"
             android:textAlignment="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lineChart_error"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_margin="30dp"
+            android:text="지난 일주일의 매출 데이터를 입력해주세요"
+            android:textSize="10sp"
+            android:visibility="gone"/>
         <LinearLayout
             android:layout_height="200dp"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:id="@+id/lineChart_layout">
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -91,7 +102,6 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:background="@color/white">
-
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/lineChart"
                         android:layout_width="380dp"
@@ -109,11 +119,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
-            android:text="날씨별 매출 통계"
+            android:text="날씨별 매출 비율"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:textAlignment="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/piechartWeather_error"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_margin="30dp"
+            android:text="지난 일주일의 매출 데이터를 입력해주세요"
+            android:textSize="10sp"
+            android:visibility="gone"/>
         <com.github.mikephil.charting.charts.PieChart
             android:layout_width="match_parent"
             android:layout_height="300dp"
@@ -128,11 +148,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
-            android:text="요일별 매출 평균"
-            android:textSize="16sp"
+            android:text="요일별 매출 비율"            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:textAlignment="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/piechartDay_error"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:layout_margin="30dp"
+            android:text="지난 일주일의 매출 데이터를 입력해주세요"
+            android:textSize="10sp"
+            android:visibility="gone"/>
         <com.github.mikephil.charting.charts.PieChart
             android:layout_width="match_parent"
             android:layout_height="300dp"
