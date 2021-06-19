@@ -34,7 +34,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import java.util.ArrayList;
 
 public class ThirdPage extends Fragment {
-    private LineChart chart;
+    private LineChart lineChart;
     private PieChart piechartDay;
     private PieChart piechartWeather;
     private DBHelper db;
@@ -48,7 +48,7 @@ public class ThirdPage extends Fragment {
         View v = inflater.inflate(R.layout.third_page, container, false);
         db = DBHelper.getInstance(v.getContext());
         dt = new DateTime();
-        chart = v.findViewById(R.id.lineChart);
+        lineChart = v.findViewById(R.id.lineChart);
         piechartDay = v.findViewById(R.id.piechart_day);
         piechartWeather = v.findViewById(R.id.piechart_weather);
         menus = db.getMenu();
@@ -81,8 +81,8 @@ public class ThirdPage extends Fragment {
                 System.out.println("Spinner listner");
                 currMenu = (int) id;
                 setNdaysLineChart(days,currMenu);
-                chart.notifyDataSetChanged();
-                chart.invalidate();
+                lineChart.notifyDataSetChanged();
+                lineChart.invalidate();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -99,13 +99,13 @@ public class ThirdPage extends Fragment {
                 }
                 if(id!=0&&days!=30){
                     days = 30;
-                    chart.setMinimumWidth(100*days);
+                    lineChart.setMinimumWidth(100*days);
                     isChanged = 1;
                 }
                 if(isChanged == 1){
                     setNdaysLineChart(days,currMenu);
-                    chart.notifyDataSetChanged();
-                    chart.invalidate();
+                    lineChart.notifyDataSetChanged();
+                    lineChart.invalidate();
                 }
             }
             @Override
@@ -120,7 +120,7 @@ public class ThirdPage extends Fragment {
 
     public void setNdaysLineChart(int d, int menuId){
         // x축 설정
-        XAxis xAxis = chart.getXAxis();
+        XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
         xAxis.setDrawLabels(true);
@@ -155,16 +155,14 @@ public class ThirdPage extends Fragment {
             ls.get(i).setCircleColor(Color.parseColor(colorCode[i]));
             ls.get(i).setLineWidth(4);
             ls.get(i).setValueTextSize(16);
+            ls.get(i).setDrawFilled(true);
+            ls.get(i).setFillDrawable(this.getContext().getDrawable(R.drawable.gradient_blue_green));
         }
-        chart.setData(new LineData(dataSets));
-
-        // hide description label
-        chart.getDescription().setEnabled(false);
-
-        // legend re-positioning
-        Legend legend = chart.getLegend();
+        lineChart.setData(new LineData(dataSets));
+        lineChart.getDescription().setEnabled(false);
+        Legend legend = lineChart.getLegend();
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        chart.setExtraOffsets(0, 0, 0, 10);
+        lineChart.setExtraOffsets(0, 0, 0, 10);
     }
     public void setPieChartByWeather(){
         piechartWeather.setUsePercentValues(true);
