@@ -1,70 +1,121 @@
 package com.example.ready.Pages;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.example.ready.Calendar.GuessDecorator;
-import com.example.ready.Calendar.SaturdayDecorator;
-import com.example.ready.Calendar.SundayDecorator;
-import com.example.ready.Calendar.WeekDayDecorator;
+import com.example.ready.Calendar.*;
+import com.example.ready.DB.DBHelper;
+import com.example.ready.DB.Model.Menu;
 import com.example.ready.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.util.Calendar;
-import java.util.Collections;
+import java.util.*;
 
 public class SecondPage extends Fragment {
+    private ArrayList<Menu> menus;
+
+    private View v;
     private MaterialCalendarView materialCalendarView;
     private SlidingUpPanelLayout slidingUpPanelLayout;
-
-    Calendar calendar = Calendar.getInstance();
-    CalendarDay date = CalendarDay.from(calendar);
+    private DBHelper dbHelper;
+    private Spinner spinner;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.second_page, container, false);
+        v = inflater.inflate(R.layout.second_page, container, false);
 
-        // for test
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        CalendarDay date2 = CalendarDay.from(calendar);
-        calendar.add(Calendar.DAY_OF_YEAR, 4);
-        CalendarDay date3 = CalendarDay.from(calendar);
+        dbHelper = DBHelper.getInstance(v.getContext());
 
-        // calendar decorator
         materialCalendarView = v.findViewById(R.id.calendarView);
+        slidingUpPanelLayout = v.findViewById(R.id.sliding_layout);
+        spinner = v.findViewById(R.id.spinner_menu);
+
+        calendarInit();
+        spinnerInit();
+
+        return v;
+    }
+
+    private void calendarInit() {
         materialCalendarView.setSelectedDate(CalendarDay.today());
         materialCalendarView.addDecorators(
                 new SaturdayDecorator(),
                 new SundayDecorator(),
                 new WeekDayDecorator()
         );
-        materialCalendarView.addDecorators(
-                new GuessDecorator("20", Color.RED, Collections.singleton(date)),
-                new GuessDecorator("10", Color.BLUE, Collections.singleton(date2)),
-                new GuessDecorator("5", Color.GREEN, Collections.singleton(date3))
-        );
-
-        // when date is clicked, show up slidingUpPanelLayout
-        slidingUpPanelLayout = v.findViewById(R.id.sliding_layout);
         materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                panelInit();
             }
         });
+    }
 
+    private void spinnerInit() {
+        menus = dbHelper.getMenu();
+        ArrayList<String> menuList = new ArrayList<>();
 
-        return v;
+        menuList.add("메뉴 선택");
+        for(int i = 0; i < menus.size(); i++)
+            menuList.add(menus.get(i).menu_name);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                v.getContext(),
+                R.layout.spinner_list,
+                menuList
+        );
+
+        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int menu_id = (int) id;
+                System.out.println(menu_id);
+
+                if(menu_id != 0) {
+                    materialCalendarView.removeDecorators();
+                    materialCalendarView.invalidateDecorators();
+                    materialCalendarView.addDecorators(
+                            new SaturdayDecorator(),
+                            new SundayDecorator(),
+                            new WeekDayDecorator()
+                    );
+
+                    ArrayList<String> dates = dbHelper.getSaleDateWithId(menu_id);
+                    ArrayList<Integer> qtys = dbHelper.getSaleQtyWithId(menu_id);
+
+                    for(int i = 0; i < dates.size(); i++) {
+                        String date = dates.get(i);
+                        int qty = qtys.get(i);
+
+                        System.out.println("DATE " + date + " QTY " + qty);
+
+                        materialCalendarView.addDecorator(
+                                new GuessDecorator(date, qty)
+                        );
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    private void panelInit() {
+
     }
 }
