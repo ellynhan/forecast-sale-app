@@ -2,9 +2,12 @@ package com.example.ready.DB;
 import android.content.Context;
 import android.text.format.DateUtils;
 
+import java.security.cert.CollectionCertStoreParameters;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -17,18 +20,6 @@ public class DateTime {
         return currentDate; //2021xxxx ~
     }
 
-    public String getYesterday(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
-        String yesterday = sdf.format(new Date().getTime()-24*3600*1000);
-        return yesterday; //2021xxxx ~
-    }
-
-    public String getYesterdayFull(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());
-        String yesterday = sdf.format(new Date().getTime()-24*3600*1000);
-        return yesterday;
-    }
-
     public String getCurrentTime(){
         SimpleDateFormat sdf = new SimpleDateFormat("HH", Locale.getDefault());
         String currentTime = sdf.format(new Date());
@@ -39,52 +30,56 @@ public class DateTime {
     public int getDayOfWeek(){
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
-        return day; //일:1 월:2 화:3 수:4 목:5 금:6 토:7
+        return day;
     }
 
-    public ArrayList<String> get7daysFull(){
+    public int getDayOfWeek2(String date) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());
+        Date d = sdf.parse(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d);
+        int day = calendar.get(Calendar.DAY_OF_WEEK); //일:1 월:2 화:3 수:4 목:5 금:6 토:7
+        return day-1; //일:0 월:1 화:2 수:3 목:4 금:5 토:6
+    }
+
+    public ArrayList<String> getNdays(int n, int isFull){
         ArrayList<String> days = new ArrayList<String>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());
-        for(int i=1; i<=7; i++){
-            days.add(sdf.format(new Date().getTime()-24*3600*1000*i));
+        int year, month, day;
+        String today = sdf.format(new Date().getTime());
+        year = Integer.parseInt(today.substring(0,4));
+        month = Integer.parseInt(today.substring(6,8));
+        day = Integer.parseInt(today.substring(10,12));
+        int[] daysPermonth = {31,28,31,30,31,30,31,31,30,31,30,31};
+        if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0){
+            daysPermonth[1]=29;
         }
+        for(int i=1; i<=n; i++){
+            day=day-1;
+            if(day==0){
+                day = daysPermonth[month-1];
+                month=month-1;
+                if(month==0){
+                    month = 12;
+                    year = year -1;
+                }
+            }
+            String monthStr = String.valueOf(month);
+            String dayStr = String.valueOf(day);
+            if(month<10){
+                monthStr="0"+monthStr;
+            }
+            if(day<10){
+                dayStr="0"+dayStr;
+            }
+            String result=monthStr+"월 "+dayStr+"일";
+            if(isFull==1){
+                result = year+"년 "+result;
+            }
+            days.add(result);
+        }
+
+//        Collections.reverse(days);
         return days;
     }
-
-    public ArrayList<String> get7daysWOY(){
-        ArrayList<String> days = new ArrayList<String>();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM월 dd일", Locale.getDefault());
-        for(int i=7; i>=1; i--){
-            days.add(sdf.format(new Date().getTime()-24*3600*1000*i));
-        }
-        return days;
-    }
-
-    public ArrayList<String> get30daysFull(){
-        ArrayList<String> days = new ArrayList<String>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());
-        for(int i=1; i<=30; i++){
-            days.add(sdf.format(new Date().getTime()-24*3600*1000*i));
-        }
-        return days;
-    }
-
-    public ArrayList<String> getNdaysFull(int n){
-        ArrayList<String> days = new ArrayList<String>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());
-        for(int i=n; i>=1; i--){
-            days.add(sdf.format(new Date().getTime()-24*3600*1000*i));
-        }
-        return days;
-    }
-
-    public ArrayList<String> getNdaysWOY(int n){
-        ArrayList<String> days = new ArrayList<String>();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM월 dd일", Locale.getDefault());
-        for(int i=n; i>=1; i--){
-            days.add(sdf.format(new Date().getTime()-24*3600*1000*i));
-        }
-        return days;
-    }
-
 }

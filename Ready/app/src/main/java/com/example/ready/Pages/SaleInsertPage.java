@@ -169,7 +169,6 @@ public class SaleInsertPage extends Fragment {
                     }
                 }
             }
-
             else {
                 sale.date = dateString;
                 sale.time = isNoon;
