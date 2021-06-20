@@ -26,21 +26,22 @@ public class Weather extends Thread{
         int currentTime = dt.getTime();
         if(currentTime<2){
             //어제 날씨 가져와야함 날씨저장하는 DB필요.
-        }else if(currentTime<5){
-            baseTime = "0200";
-        }else if(currentTime<8){
-            baseTime = "0500";
-        }else if(currentTime<11){
-            baseTime = "0800";
-        }else if(currentTime<14){
-            baseTime = "1100";
-        }else if(currentTime<17){
-            baseTime = "1400";
-        }else if(currentTime<20){
-            baseTime = "1700";
-        }else if(currentTime<23){
-            baseTime = "2000";
+        }else{
+            baseTime = "0200"; //원래는 실시간 업데이트 하려고 했으니 오늘의 최저기온을 받기 위해 새벽2시로 설정.
         }
+//        else if(currentTime<8){
+//            baseTime = "0500";
+//        }else if(currentTime<11){
+//            baseTime = "0800";
+//        }else if(currentTime<14){
+//            baseTime = "1100";
+//        }else if(currentTime<17){
+//            baseTime = "1400";
+//        }else if(currentTime<20){
+//            baseTime = "1700";
+//        }else if(currentTime<23){
+//            baseTime = "2000";
+//        }
 
         String s = endPoint+serviceKey
                 +"&pageNo=" + pageNo
