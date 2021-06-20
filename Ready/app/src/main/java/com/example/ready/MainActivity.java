@@ -1,19 +1,13 @@
 package com.example.ready;
-
 import android.content.Intent;
 import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.example.ready.DB.DateTime;
-import com.example.ready.DB.Weather;
 import com.example.ready.Pages.*;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -23,20 +17,12 @@ public class MainActivity extends AppCompatActivity{
     final private ThirdPage thirdPage = new ThirdPage();
     final private ForthPage forthPage = new ForthPage();
     final private FragmentManager fragmentManager = getSupportFragmentManager();
-
-    final private Weather weather = new Weather();
-    final private DateTime dateTime = new DateTime();
     private Button toolbarBtn;
-//    private SQLiteDatabase db;
-//    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Intent intent = new Intent(this, LoadingActivity.class);
-        startActivity(intent);
         setContentView(R.layout.activity_main);
-//        db = dbHelper.getReadableDatabase();
 
         toolbarBtn = findViewById(R.id.toolbarBtn);
         toolbarBtn.setOnClickListener(new View.OnClickListener(){
