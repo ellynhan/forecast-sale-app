@@ -53,7 +53,8 @@ public class Sale {
     public void setId(int _id) { this._id = _id; }
     public void setMenuId(int menu_id) { this.menu_id = menu_id; }
     public void setSaleQty(int qty) { this.qty = qty; }
-//    public void setSaleWeather(int weather) { this.weather = weather; }
+    public void setSaleSky(int sky) { this.sky = sky; }
+    public void setSaleRain(int rain) { this.sky = rain; }
     public void setSaleDate(String date) { this.date = date; }
     public void setSaleTime(Boolean time) { this.time = time; }
     public void setSaleHoliday(Boolean holiday) { this.holiday = holiday; }
