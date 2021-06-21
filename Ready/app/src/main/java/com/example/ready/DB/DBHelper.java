@@ -296,30 +296,30 @@ public class DBHelper extends SQLiteOpenHelper {
         ));
 
         ArrayList<Integer> day = new ArrayList<>(Arrays.asList(
-                2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0 //1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4
+                2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4
         ));
 
         ArrayList<Integer> sky1 = new ArrayList<>(Arrays.asList(
-                0, 1, 2, 0, 1, 2,0, 1, 2, 0, 1, 2,0, 1, 2,0, 1, 2,0, 1 //2,0, 1, 2,0, 1, 2,0, 1, 2, 0
+                0, 1, 2, 0, 1, 2,0, 1, 2, 0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2, 0
                 ));
         ArrayList<Integer> rain1 = new ArrayList<>(Arrays.asList(
-                3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 //,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0,1
+                3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 ,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0,1
         ));
         ArrayList<Integer> qty1 = new ArrayList<>(Arrays.asList(
-                39, 53, 135, 304, 59, 22, 42, 18, 35, 80, 36, 61, 45, 2, 96, 45, 33, 70, 193, 12//, 71, 278, 90, 27, 121, 168, 52, 27, 22, 78,32
+                39, 53, 135, 304, 59, 22, 42, 18, 35, 80, 36, 61, 45, 2, 96, 45, 33, 70, 193, 12, 71, 278, 90, 27, 121, 168, 52, 27, 22, 78,32
         ));
 
         ArrayList<Integer> sky2 = new ArrayList<>(Arrays.asList(
-                0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1//, 2,0, 1, 2,0, 1, 2,0, 1, 2,0
+                0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0
                 ));
         ArrayList<Integer> rain2 = new ArrayList<>(Arrays.asList(
-                3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 //,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0,1
+                3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 ,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0,1
         ));
         ArrayList<Integer> qty2 = new ArrayList<>(Arrays.asList(
-                44, 31, 30, 36, 211, 366, 33, 15, 192, 3, 28, 100, 17, 67, 16, 201, 69, 65, 37, 102//, 309, 78, 134, 91, 96, 17, 53, 91, 35, 25,32
+                44, 31, 30, 36, 211, 366, 33, 15, 192, 3, 28, 100, 17, 67, 16, 201, 69, 65, 37, 102, 309, 78, 134, 91, 96, 17, 53, 91, 35, 25,32
         ));
 
-        for(int i = 1; i < 20; i++) {
+        for(int i = 1; i < 31; i++) {
             values.put(Sale.MENU_ID, 1);
             values.put(Sale.QTY, qty1.get(i));
             values.put(Sale.TIME, 0);
@@ -331,7 +331,7 @@ public class DBHelper extends SQLiteOpenHelper {
             db.insert(Sale.TABLE_NAME, null, values);
         }
 
-        for(int i = 1; i < 20; i++) {
+        for(int i = 1; i < 31; i++) {
             values.put(Sale.MENU_ID, 2);
             values.put(Sale.QTY, qty2.get(i));
             values.put(Sale.TIME, 0);

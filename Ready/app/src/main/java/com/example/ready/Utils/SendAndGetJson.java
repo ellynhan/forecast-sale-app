@@ -10,9 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +28,7 @@ public class SendAndGetJson {
 
         for(int i = 0; i < 1; i++) {
             int menu_id = menus.get(i)._id;
+            id = menu_id;
 
             SendJson sendJson = new SendJson(menu_id);
             sendJson.start();
@@ -79,20 +78,18 @@ public class SendAndGetJson {
                 }
 
                     Log.i("JSON", jsonArray.toString());
-
+//
 //                    dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
 //                    dataOutputStream.writeBytes(jsonArray.toString());
 //
 //                    Log.i("STATUS", String.valueOf(httpURLConnection.getResponseCode()));
 //                    Log.i("MSG" , httpURLConnection.getResponseMessage());
 
-//                    sleep(25000);
+//                    GetJson getJson = new GetJson();
+//                    getJson.run();
 
-                    GetJson getJson = new GetJson();
-                    getJson.run();
-
-                dataOutputStream.flush();
-                dataOutputStream.close();
+//                dataOutputStream.flush();
+//                dataOutputStream.close();
 
                 httpURLConnection.disconnect();
 
@@ -107,9 +104,6 @@ public class SendAndGetJson {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-//            catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
     }
 
@@ -129,6 +123,7 @@ public class SendAndGetJson {
                 InputStreamReader inputStreamReader = new InputStreamReader(
                         httpURLConnection.getInputStream(),
                         "UTF-8");
+
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 StringBuffer stringBuffer = new StringBuffer();
                 while ((string = bufferedReader.readLine()) != null) {
@@ -138,9 +133,10 @@ public class SendAndGetJson {
                 jsonParse(stringBuffer.toString());
             } catch(MalformedURLException e) {
                 e.printStackTrace();
-            } catch(IOException e) {
-                e.printStackTrace();
+ 
             } catch(JSONException e) {
+                e.printStackTrace();
+            } catch(IOException e) {
                 e.printStackTrace();
             }
         }
@@ -176,8 +172,6 @@ public class SendAndGetJson {
 
         dbHelper.insertSale(sale);
 
-        sale = new Sale();
-        sale.menu_id = id;
         sale.qty = tomorrowQty;
         sale.sky = 0;
         sale.rain = 0;

@@ -28,6 +28,7 @@ public class SecondPage extends Fragment {
     private int menu_id;
     private View v;
     private TextView day, weather, menu_name, predict_value;
+    private ImageView imageView;
     private MaterialCalendarView materialCalendarView;
     private SlidingUpPanelLayout slidingUpPanelLayout;
     private DBHelper dbHelper;
@@ -49,6 +50,7 @@ public class SecondPage extends Fragment {
         weather = v.findViewById(R.id.weather);
         menu_name = v.findViewById(R.id.menu_name);
         predict_value = v.findViewById(R.id.predict_value);
+        imageView = v.findViewById(R.id.weather_image);
 
         calendarInit();
         spinnerInit();
@@ -143,12 +145,15 @@ public class SecondPage extends Fragment {
                 switch (sale.get(1)) {
                     case 0:
                         sky = "맑음";
+                        imageView.setImageResource(R.drawable.sun);
                         break;
                     case 1:
-                        sky = "구름많음";
+                        sky = "흐림";
+                        imageView.setImageResource(R.drawable.cloudy);
                         break;
                     case 2:
-                        sky = "흐름";
+                        sky = "비";
+                        imageView.setImageResource(R.drawable.rainy);
                         break;
                 }
                 weather.setText(sky);
