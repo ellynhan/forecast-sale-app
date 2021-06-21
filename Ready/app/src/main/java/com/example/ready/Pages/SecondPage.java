@@ -133,24 +133,28 @@ public class SecondPage extends Fragment {
         day.setText(dateString);
 
         if(menu_id != 0) {
-            menu_name.setText(menuList.get(menu_id) + " ");
+            try {
+                menu_name.setText(menuList.get(menu_id) + " ");
 
-            ArrayList<Integer> sale = dbHelper.getSaleQtySkyWithIdAndDate(menu_id ,dateString);
-            predict_value.setText(String.valueOf(sale.get(0)));
+                ArrayList<Integer> sale = dbHelper.getSaleQtySkyWithIdAndDate(menu_id, dateString);
+                predict_value.setText(String.valueOf(sale.get(0)));
 
-            String sky = "";
-            switch(sale.get(1)) {
-                case 0:
-                    sky = "맑음";
-                    break;
-                case 1:
-                    sky = "구름많음";
-                    break;
-                case 2:
-                    sky = "흐름";
-                    break;
+                String sky = "";
+                switch (sale.get(1)) {
+                    case 0:
+                        sky = "맑음";
+                        break;
+                    case 1:
+                        sky = "구름많음";
+                        break;
+                    case 2:
+                        sky = "흐름";
+                        break;
+                }
+                weather.setText(sky);
+            } catch(IndexOutOfBoundsException e) {
+                e.printStackTrace();
             }
-            weather.setText(sky);
         }
     }
 }
