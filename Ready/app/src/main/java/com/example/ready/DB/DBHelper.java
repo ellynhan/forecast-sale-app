@@ -131,6 +131,32 @@ public class DBHelper extends SQLiteOpenHelper {
         return dates;
     }
 
+    public ArrayList<Sale> getAllSaleWithId(int menu_id) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Sale> sales = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM sales WHERE menu_id = ?",
+                new String[] { String.valueOf(menu_id) });
+        if(cursor.moveToFirst()) {
+            do {
+                Sale sale = new Sale();
+
+                sale.setMenuId(cursor.getInt(cursor.getColumnIndex(Sale.MENU_ID)));
+                sale.setSaleQty(cursor.getInt(cursor.getColumnIndex(Sale.QTY)));
+//                sale.setSaleWeather(cursor.getInt(cursor.getColumnIndex(Sale.WEATHER)));
+                sale.setSaleDate(cursor.getString(cursor.getColumnIndex(Sale.DATE)));
+                sale.setSaleDay(cursor.getInt(cursor.getColumnIndex(Sale.DAY)));
+                sale.setSaleTime(cursor.getInt(cursor.getColumnIndex(Sale.TIME)) > 0);
+                sale.setSaleHoliday(cursor.getInt(cursor.getColumnIndex(Sale.HOLIDAY)) > 0);
+                sales.add(sale);
+            } while(cursor.moveToNext());
+        }
+        cursor.close();
+
+        return sales;
+    }
+
     // SecondPage의 수량 데이터 가져오기
     public ArrayList<String> getSaleDateWithId(int menu_id) {
         SQLiteDatabase db = getReadableDatabase();
@@ -166,24 +192,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return sale;
     }
 
-    public ArrayList<Integer> getSaleQtyWithId(int menu_id) {
-        SQLiteDatabase db = getReadableDatabase();
-        ArrayList<Integer> qtys = new ArrayList<>();
-
-        Cursor cursor = db.rawQuery(
-                "SELECT qty FROM sales WHERE menu_id = ?",
-                new String[] { String.valueOf(menu_id) });
-        if(cursor.moveToFirst()) {
-            do {
-                int qty;
-                qty = cursor.getInt(cursor.getColumnIndex(Sale.QTY));
-                qtys.add(qty);
-            } while(cursor.moveToNext());
-        }
-
-        return qtys;
-    }
-
     public void insertSale(Sale sale) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -196,7 +204,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(Sale.TIME, sale.time);
         values.put(Sale.HOLIDAY, sale.holiday);
 
-        db.insert(Sale.TABLE_NAME, null, values);
+        db.insertWithOnConflict(Sale.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
     }
 
@@ -257,58 +265,64 @@ public class DBHelper extends SQLiteOpenHelper {
                 "2021년 06월 17일",
                 "2021년 06월 18일",
                 "2021년 06월 19일",
-                "2021년 06월 20일",
-                "2021년 06월 21일",
-                "2021년 06월 22일",
-                "2021년 06월 23일",
-                "2021년 06월 24일",
-                "2021년 06월 25일",
-                "2021년 06월 26일",
-                "2021년 06월 27일",
-                "2021년 06월 28일",
-                "2021년 06월 29일",
-                "2021년 06월 30일",
-                "2021년 06월 31일"
+                "2021년 06월 20일"
+//                "2021년 06월 21일",
+//                "2021년 06월 22일",
+//                "2021년 06월 23일",
+//                "2021년 06월 24일",
+//                "2021년 06월 25일",
+//                "2021년 06월 26일",
+//                "2021년 06월 27일",
+//                "2021년 06월 28일",
+//                "2021년 06월 29일",
+//                "2021년 06월 30일",
+//                "2021년 06월 31일"
+        ));
+
+        ArrayList<Integer> day = new ArrayList<>(Arrays.asList(
+                2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0 //1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4
         ));
 
         ArrayList<Integer> sky1 = new ArrayList<>(Arrays.asList(
-                0, 1, 2, 0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0
+                0, 1, 2, 0, 1, 2,0, 1, 2, 0, 1, 2,0, 1, 2,0, 1, 2,0, 1 //2,0, 1, 2,0, 1, 2,0, 1, 2, 0
                 ));
         ArrayList<Integer> rain1 = new ArrayList<>(Arrays.asList(
-                3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 ,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0,1
+                3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 //,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0,1
         ));
         ArrayList<Integer> qty1 = new ArrayList<>(Arrays.asList(
-                39, 53, 135, 304, 59, 22, 42, 18, 35, 80, 36, 61, 45, 2, 96, 45, 33, 70, 193, 12, 71, 278, 90, 27, 121, 168, 52, 27, 22, 78,32
+                39, 53, 135, 304, 59, 22, 42, 18, 35, 80, 36, 61, 45, 2, 96, 45, 33, 70, 193, 12//, 71, 278, 90, 27, 121, 168, 52, 27, 22, 78,32
         ));
 
         ArrayList<Integer> sky2 = new ArrayList<>(Arrays.asList(
-                0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0
+                0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1//, 2,0, 1, 2,0, 1, 2,0, 1, 2,0
                 ));
         ArrayList<Integer> rain2 = new ArrayList<>(Arrays.asList(
-                3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 ,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0,1
+                3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 //,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0,1
         ));
         ArrayList<Integer> qty2 = new ArrayList<>(Arrays.asList(
-                44, 31, 30, 36, 211, 366, 33, 15, 192, 3, 28, 100, 17, 67, 16, 201, 69, 65, 37, 102, 309, 78, 134, 91, 96, 17, 53, 91, 35, 25,32
+                44, 31, 30, 36, 211, 366, 33, 15, 192, 3, 28, 100, 17, 67, 16, 201, 69, 65, 37, 102//, 309, 78, 134, 91, 96, 17, 53, 91, 35, 25,32
         ));
 
-        for(int i = 1; i < 31; i++) {
+        for(int i = 1; i < 20; i++) {
             values.put(Sale.MENU_ID, 1);
             values.put(Sale.QTY, qty1.get(i));
             values.put(Sale.TIME, 0);
             values.put(Sale.HOLIDAY, 0);
             values.put(Sale.SKY, sky1.get(i));
             values.put(Sale.RAIN, rain1.get(i));
+            values.put(Sale.DAY, day.get(i));
             values.put(Sale.DATE, date.get(i));
             db.insert(Sale.TABLE_NAME, null, values);
         }
 
-        for(int i = 1; i < 31; i++) {
+        for(int i = 1; i < 20; i++) {
             values.put(Sale.MENU_ID, 2);
             values.put(Sale.QTY, qty2.get(i));
             values.put(Sale.TIME, 0);
             values.put(Sale.HOLIDAY, 0);
             values.put(Sale.SKY, sky2.get(i));
             values.put(Sale.RAIN, rain2.get(i));
+            values.put(Sale.DAY, day.get(i));
             values.put(Sale.DATE, date.get(i));
             db.insert(Sale.TABLE_NAME, null, values);
         }

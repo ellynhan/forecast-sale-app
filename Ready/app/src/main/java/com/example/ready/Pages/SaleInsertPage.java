@@ -37,6 +37,7 @@ public class SaleInsertPage extends Fragment {
     private Boolean isHoliday = false, isNoon = false;
     private String dateString;
     private DBHelper dbHelper;
+    private int dayOfWeek;
 
     private ArrayList<Menu> menus = new ArrayList<>();
     private ArrayList<Sale> sales = new ArrayList<>();
@@ -137,6 +138,7 @@ public class SaleInsertPage extends Fragment {
         currentDateText.setText(dateString);
 
         int week = date.getCalendar().get(Calendar.DAY_OF_WEEK);
+        dayOfWeek = week;
         if(week == 1 || week == 7)
             isHoliday = true;
         else
@@ -150,6 +152,10 @@ public class SaleInsertPage extends Fragment {
             sale.date = dateString;
             sale.time = isNoon;
             sale.holiday = isHoliday;
+            sale.day = dayOfWeek - 1;
+
+            sale.sky = 0;
+            sale.rain = 0;
 
             for (int i = 0; i < saleQty.size(); i++) {
                 sale.menu_id = menus.get(i)._id;

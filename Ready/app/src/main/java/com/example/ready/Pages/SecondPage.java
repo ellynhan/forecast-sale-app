@@ -17,7 +17,6 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -39,6 +38,7 @@ public class SecondPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.second_page, container, false);
 
+        menuList.clear();
         dbHelper = DBHelper.getInstance(v.getContext());
 
         materialCalendarView = v.findViewById(R.id.calendarView);
@@ -135,22 +135,27 @@ public class SecondPage extends Fragment {
         if(menu_id != 0) {
             menu_name.setText(menuList.get(menu_id) + " ");
 
-            ArrayList<Integer> sale = dbHelper.getSaleQtySkyWithIdAndDate(menu_id ,dateString);
-            predict_value.setText(String.valueOf(sale.get(0)));
+            try {
+                ArrayList<Integer> sale = dbHelper.getSaleQtySkyWithIdAndDate(menu_id, dateString);
+                predict_value.setText(String.valueOf(sale.get(0)));
 
-            String sky = "";
-            switch(sale.get(1)) {
-                case 0:
-                    sky = "맑음";
-                    break;
-                case 1:
-                    sky = "구름많음";
-                    break;
-                case 2:
-                    sky = "흐름";
-                    break;
+                String sky = "";
+                switch (sale.get(1)) {
+                    case 0:
+                        sky = "맑음";
+                        break;
+                    case 1:
+                        sky = "구름많음";
+                        break;
+                    case 2:
+                        sky = "흐름";
+                        break;
+                }
+                weather.setText(sky);
             }
-            weather.setText(sky);
+            catch(IndexOutOfBoundsException e) {
+
+            }
         }
     }
 }

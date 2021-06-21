@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.ready.Pages.*;
+import com.example.ready.Utils.SendAndGetJson;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity{
@@ -17,12 +18,15 @@ public class MainActivity extends AppCompatActivity{
     final private ThirdPage thirdPage = new ThirdPage();
     final private ForthPage forthPage = new ForthPage();
     final private FragmentManager fragmentManager = getSupportFragmentManager();
+    private SendAndGetJson sendAndGetJson = new SendAndGetJson();
     private Button toolbarBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sendAndGetJson.send(getBaseContext());
 
         toolbarBtn = findViewById(R.id.toolbarBtn);
         toolbarBtn.setOnClickListener(new View.OnClickListener(){
