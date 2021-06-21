@@ -1,6 +1,5 @@
 package com.example.ready.Pages;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -171,6 +170,14 @@ public class SaleInsertPage extends Fragment {
             }
 
             slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+            materialCalendarView.removeDecorators();
+            materialCalendarView.addDecorators(
+                    new SaturdayDecorator(),
+                    new SundayDecorator(),
+                    new WeekDayDecorator(),
+                    new SaleDecorator(v.getContext())
+            );
         }
     };
 

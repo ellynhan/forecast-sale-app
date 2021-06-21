@@ -18,7 +18,9 @@ public class AddTextToDates implements LineBackgroundSpan {
     @Override
     public void drawBackground(@NonNull Canvas canvas, @NonNull Paint paint, int left, int right, int top, int baseline, int bottom, @NonNull CharSequence text, int start, int end, int lineNumber) {
         paint.setColor(this.color);
-        canvas.drawCircle(((left + right) / 2 - 20), (bottom + 15), 5, paint);
-        canvas.drawText(this.text, ((left + right) / 2 - 10), (bottom + 25), paint);
+        canvas.drawCircle((left + right) / 2, (bottom + 15), 5, paint);
+
+//        canvas.drawCircle(((left + right) / 2 - 20), (bottom + 15), 5, paint);
+//        canvas.drawText(this.text, ((left + right) / 2 - 10), (bottom + 25), paint);
     }
 }

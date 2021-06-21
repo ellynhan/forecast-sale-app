@@ -31,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(Menu.CREATE_TABLE);
         db.execSQL(Sale.CREATE_TABLE);
 
-       dbSeedTest(db);
+        dbSeedTest(db);
     }
 
     @Override
@@ -150,6 +150,22 @@ public class DBHelper extends SQLiteOpenHelper {
         return dates;
     }
 
+    public ArrayList<Integer> getSaleQtySkyWithIdAndDate(int menu_id, String date) {
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<Integer> sale = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT qty, sky FROM sales WHERE menu_id = ? AND date = ?",
+                new String[] { String.valueOf(menu_id), date });
+
+        if(cursor.moveToFirst()) {
+            sale.add(cursor.getInt(cursor.getColumnIndex(Sale.QTY)));
+            sale.add(cursor.getInt(cursor.getColumnIndex(Sale.SKY)));
+        }
+
+        return sale;
+    }
+
     public ArrayList<Integer> getSaleQtyWithId(int menu_id) {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Integer> qtys = new ArrayList<>();
@@ -203,29 +219,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 "menu_id = ? AND date = ?",
                 new String[] { String.valueOf(sale.menu_id), sale.date },
                 SQLiteDatabase.CONFLICT_REPLACE);
-        db.close();
-    }
-
-    public void upsertSale(Sale sale) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(Sale.MENU_ID, sale.menu_id);
-        values.put(Sale.QTY, sale.qty);
-        values.put(Sale.SKY, sale.sky);
-        values.put(Sale.RAIN, sale.rain);
-        values.put(Sale.DATE, sale.date);
-        values.put(Sale.TIME, sale.time);
-        values.put(Sale.HOLIDAY, sale.holiday);
-
-        db.updateWithOnConflict(
-                Sale.TABLE_NAME,
-                values,
-                "menu_id = ? AND date = ?",
-                new String[] { String.valueOf(sale.menu_id), sale.date },
-                SQLiteDatabase.CONFLICT_REPLACE
-        );
-
         db.close();
     }
 
