@@ -299,24 +299,22 @@ public class DBHelper extends SQLiteOpenHelper {
                 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4
         ));
 
-        ArrayList<Integer> sky1 = new ArrayList<>(Arrays.asList(
+        ArrayList<Integer> sky = new ArrayList<>(Arrays.asList(
                 0, 1, 2, 0, 1, 2,0, 1, 2, 0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2, 0
                 ));
-        ArrayList<Integer> rain1 = new ArrayList<>(Arrays.asList(
+        ArrayList<Integer> rain = new ArrayList<>(Arrays.asList(
                 3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 ,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0,1
         ));
         ArrayList<Integer> qty1 = new ArrayList<>(Arrays.asList(
-                39, 53, 135, 304, 59, 22, 42, 18, 35, 80, 36, 61, 45, 2, 96, 45, 33, 70, 193, 12, 71, 278, 90, 27, 121, 168, 52, 27, 22, 78,32
+                39, 53, 35, 34, 59, 32, 42, 18, 35, 80, 36, 61, 45, 63, 66, 45, 33, 70, 53, 42, 71, 78, 90, 27, 51, 68, 52, 67, 52, 78,72
         ));
 
-        ArrayList<Integer> sky2 = new ArrayList<>(Arrays.asList(
-                0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0, 1, 2,0
-                ));
-        ArrayList<Integer> rain2 = new ArrayList<>(Arrays.asList(
-                3 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,2 ,2 ,0 ,0 ,0 ,1 ,2 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,2 ,0,1
-        ));
         ArrayList<Integer> qty2 = new ArrayList<>(Arrays.asList(
-                44, 31, 30, 36, 211, 366, 33, 15, 192, 3, 28, 100, 17, 67, 16, 201, 69, 65, 37, 102, 309, 78, 134, 91, 96, 17, 53, 91, 35, 25,32
+                66, 45, 33, 70, 93, 12, 71, 78, 90, 37, 51, 68, 52, 27, 52, 78,32, 39, 53, 35, 34, 59, 22, 42, 18, 35, 80, 36, 61, 45, 63
+        ));
+
+        ArrayList<Integer> qty3 = new ArrayList<>(Arrays.asList(
+                 27, 51, 68, 52, 27, 52, 78,32, 39, 53, 35, 34, 59, 22, 42, 18, 35, 80, 36, 61, 45, 63,66, 45, 33, 70, 43, 52, 71, 78, 90
         ));
 
         for(int i = 1; i < 31; i++) {
@@ -324,8 +322,8 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(Sale.QTY, qty1.get(i));
             values.put(Sale.TIME, 0);
             values.put(Sale.HOLIDAY, 0);
-            values.put(Sale.SKY, sky1.get(i));
-            values.put(Sale.RAIN, rain1.get(i));
+            values.put(Sale.SKY, sky.get(i));
+            values.put(Sale.RAIN, rain.get(i));
             values.put(Sale.DAY, day.get(i));
             values.put(Sale.DATE, date.get(i));
             db.insert(Sale.TABLE_NAME, null, values);
@@ -336,8 +334,20 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(Sale.QTY, qty2.get(i));
             values.put(Sale.TIME, 0);
             values.put(Sale.HOLIDAY, 0);
-            values.put(Sale.SKY, sky2.get(i));
-            values.put(Sale.RAIN, rain2.get(i));
+            values.put(Sale.SKY, sky.get(i));
+            values.put(Sale.RAIN, rain.get(i));
+            values.put(Sale.DAY, day.get(i));
+            values.put(Sale.DATE, date.get(i));
+            db.insert(Sale.TABLE_NAME, null, values);
+        }
+
+        for(int i = 1; i < 31; i++) {
+            values.put(Sale.MENU_ID, 3);
+            values.put(Sale.QTY, qty3.get(i));
+            values.put(Sale.TIME, 0);
+            values.put(Sale.HOLIDAY, 0);
+            values.put(Sale.SKY, sky.get(i));
+            values.put(Sale.RAIN, rain.get(i));
             values.put(Sale.DAY, day.get(i));
             values.put(Sale.DATE, date.get(i));
             db.insert(Sale.TABLE_NAME, null, values);
