@@ -97,10 +97,10 @@ public class DBHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()) {
             do {
                 Sale sale = new Sale();
-              
                 sale.setMenuId(cursor.getInt(cursor.getColumnIndex(Sale.MENU_ID)));
                 sale.setSaleQty(cursor.getInt(cursor.getColumnIndex(Sale.QTY)));
-//                sale.setSaleWeather(cursor.getInt(cursor.getColumnIndex(Sale.WEATHER)));
+                sale.setSaleSky(cursor.getInt(cursor.getColumnIndex(Sale.SKY)));
+                sale.setSaleRain(cursor.getInt(cursor.getColumnIndex(Sale.RAIN)));
                 sale.setSaleDate(cursor.getString(cursor.getColumnIndex(Sale.DATE)));
                 sale.setSaleTime(cursor.getInt(cursor.getColumnIndex(Sale.TIME)) > 0);
                 sale.setSaleHoliday(cursor.getInt(cursor.getColumnIndex(Sale.HOLIDAY)) > 0);
@@ -233,19 +233,35 @@ public class DBHelper extends SQLiteOpenHelper {
     private void dbSeedTest(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         
-        values.put(Menu.MENU_NAME, "김치찌개");
-        values.put(Menu.MENU_PRICE, 5000);
+        values.put(Menu.MENU_NAME, "후라이드");
+        values.put(Menu.MENU_PRICE, 19000);
         db.insert(Menu.TABLE_NAME, null, values);
 
         values.clear();
-        values.put(Menu.MENU_NAME, "된장찌개");
-        values.put(Menu.MENU_PRICE, 6000);
+        values.put(Menu.MENU_NAME, "양념치킨");
+        values.put(Menu.MENU_PRICE, 19000);
+        db.insert(Menu.TABLE_NAME, null, values);
+
+        values.clear();
+        values.put(Menu.MENU_NAME, "간장치킨");
+        values.put(Menu.MENU_PRICE, 21000);
         db.insert(Menu.TABLE_NAME, null, values);
 
         values.clear();
         // 2021/4/1
 
         ArrayList<String> date = new ArrayList<>(Arrays.asList(
+                "2021년 05월 21일",
+                "2021년 05월 22일",
+                "2021년 05월 23일",
+                "2021년 05월 24일",
+                "2021년 05월 25일",
+                "2021년 05월 26일",
+                "2021년 05월 27일",
+                "2021년 05월 28일",
+                "2021년 05월 29일",
+                "2021년 05월 30일",
+                "2021년 05월 31일",
                 "2021년 06월 01일",
                 "2021년 06월 02일",
                 "2021년 06월 03일",
@@ -310,7 +326,7 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(Sale.HOLIDAY, 0);
             values.put(Sale.SKY, sky1.get(i));
             values.put(Sale.RAIN, rain1.get(i));
-            values.put(Sale.DAY, day.get(i));
+            values.put(Sale.DAY, day.get(i))
             values.put(Sale.DATE, date.get(i));
             db.insert(Sale.TABLE_NAME, null, values);
         }

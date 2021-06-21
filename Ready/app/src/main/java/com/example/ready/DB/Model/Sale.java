@@ -59,6 +59,8 @@ public class Sale {
     public void setSaleQty(int qty) { this.qty = qty; }
 //    public void setSaleWeather(int weather) { this.weather = weather; }
     public void setSaleDay(int day) { this.day = day; }
+    public void setSaleSky(int sky) { this.sky = sky; }
+    public void setSaleRain(int rain) { this.sky = rain; }
     public void setSaleDate(String date) { this.date = date; }
     public void setSaleTime(Boolean time) { this.time = time; }
     public void setSaleHoliday(Boolean holiday) { this.holiday = holiday; }

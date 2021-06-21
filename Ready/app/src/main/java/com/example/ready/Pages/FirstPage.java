@@ -23,6 +23,7 @@ import com.example.ready.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -93,19 +94,21 @@ public class FirstPage extends Fragment {
             parseIndex[i]=weatherResult.indexOf(searchKeyword[i]);
         }
         pty = weatherResult.substring(parseIndex[0]+4,parseIndex[0]+5);
-        tmx = weatherResult.substring(parseIndex[1]+4,parseIndex[2]);
-        tmn = weatherResult.substring(parseIndex[2]+4,parseIndex[3]);
+        tmn = weatherResult.substring(parseIndex[1]+4,parseIndex[2]);
+        tmx = weatherResult.substring(parseIndex[2]+4,parseIndex[3]);
         tmr_pty = weatherResult.substring(parseIndex[3]+8,parseIndex[3]+9);
-        tmr_tmx = weatherResult.substring(parseIndex[4]+8,parseIndex[5]);
-        tmr_tmn = weatherResult.substring(parseIndex[5]+8,weatherResult.length());
+        tmr_tmn = weatherResult.substring(parseIndex[4]+8,parseIndex[5]);
+        tmr_tmx = weatherResult.substring(parseIndex[5]+8,weatherResult.length());
         todayWeather.setText(weathers[Integer.parseInt(pty)]);
         tomorrowWeahter.setText(weathers[Integer.parseInt(tmr_pty)]);
         todayMM.setText("최고   최저\n"+tmx+"   "+tmn);
         tmrMM.setText("최고   최저\n"+tmr_tmx+"   "+tmr_tmn);
         ArrayList<Menu> menus = db.getMenu();
+        int[] firstFcst = {62,70,69};
+        int[] secondFcst = {71,68,64};
         for(int i=0; i<menus.size(); i++){
-            foreCastTodayItems.add(new RecyclerViewItem(menus.get(i).menu_name,i+1));
-            foreCastTomorrowItems.add(new RecyclerViewItem(menus.get(i).menu_name,i+1));
+            foreCastTodayItems.add(new RecyclerViewItem(menus.get(i).menu_name,firstFcst[i]));
+            foreCastTomorrowItems.add(new RecyclerViewItem(menus.get(i).menu_name,secondFcst[i]));
         }
 
         adapterToday.setItemList(foreCastTodayItems);
@@ -119,11 +122,11 @@ public class FirstPage extends Fragment {
         todayDate.setText(dt.getToday());
         tomorrowDate.setText(dt.getTomorrow());
         weekRange.setText(sevendays.get(6)+" ~ "+sevendays.get(0));
-        setbarChart();
+        setbarChart(70f*20000,82f*20000);
         return view;
     }
 
-    public void setbarChart(){
+    public void setbarChart(float seven, float entire){
         ArrayList<BarDataSet> bs = new ArrayList<>();
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
         ArrayList<BarEntry> entries1 = new ArrayList<>();
@@ -131,8 +134,8 @@ public class FirstPage extends Fragment {
         ArrayList<String> x = new ArrayList<>();
         x.add("지난 7일 평균");
         x.add("전체 평균");
-        entries1.add(new BarEntry(0,150f));
-        entries2.add(new BarEntry(1,130f));
+        entries1.add(new BarEntry(0,seven));
+        entries2.add(new BarEntry(1,entire));
         String[] colorCode = {"#79CBB5","#48B0A6","#4897A6"};
 
         bs.add(new BarDataSet(entries1,x.get(0)));
@@ -144,12 +147,19 @@ public class FirstPage extends Fragment {
             bs.get(i).setValueTextSize(16);
             bs.get(i).setBarBorderColor(Color.TRANSPARENT);
         }
+        float max = seven > entire? seven : entire;
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
         xAxis.setDrawLabels(true);
         xAxis.setDrawAxisLine(false);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(x));
+        YAxis yAxisLeft = barChart.getAxisLeft();
+        YAxis yAxisRight = barChart.getAxisRight();
+        yAxisLeft.setAxisMinimum(0f);
+        yAxisRight.setAxisMinimum(0f);
+        yAxisLeft.setAxisMaximum(max+200000);
+        yAxisRight.setAxisMaximum(max+200000);
         BarData barData = new BarData(dataSets);
         barData.setBarWidth(0.5f);
         barChart.setData(barData);

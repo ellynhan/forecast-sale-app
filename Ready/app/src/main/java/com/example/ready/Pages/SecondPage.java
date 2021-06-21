@@ -152,9 +152,8 @@ public class SecondPage extends Fragment {
                         break;
                 }
                 weather.setText(sky);
-            }
-            catch(IndexOutOfBoundsException e) {
-
+            } catch(IndexOutOfBoundsException e) {
+                e.printStackTrace();
             }
         }
     }
