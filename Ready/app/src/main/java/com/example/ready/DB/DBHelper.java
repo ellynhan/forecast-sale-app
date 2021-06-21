@@ -326,7 +326,7 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(Sale.HOLIDAY, 0);
             values.put(Sale.SKY, sky1.get(i));
             values.put(Sale.RAIN, rain1.get(i));
-            values.put(Sale.DAY, day.get(i))
+            values.put(Sale.DAY, day.get(i));
             values.put(Sale.DATE, date.get(i));
             db.insert(Sale.TABLE_NAME, null, values);
         }
