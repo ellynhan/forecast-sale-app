@@ -79,17 +79,17 @@ public class SendAndGetJson {
 
                     Log.i("JSON", jsonArray.toString());
 //
-//                    dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-//                    dataOutputStream.writeBytes(jsonArray.toString());
-//
-//                    Log.i("STATUS", String.valueOf(httpURLConnection.getResponseCode()));
-//                    Log.i("MSG" , httpURLConnection.getResponseMessage());
+                    dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
+                    dataOutputStream.writeBytes(jsonArray.toString());
 
-//                    GetJson getJson = new GetJson();
-//                    getJson.run();
+                    Log.i("STATUS", String.valueOf(httpURLConnection.getResponseCode()));
+                    Log.i("MSG" , httpURLConnection.getResponseMessage());
 
-//                dataOutputStream.flush();
-//                dataOutputStream.close();
+                    GetJson getJson = new GetJson();
+                    getJson.run();
+
+                dataOutputStream.flush();
+                dataOutputStream.close();
 
                 httpURLConnection.disconnect();
 
