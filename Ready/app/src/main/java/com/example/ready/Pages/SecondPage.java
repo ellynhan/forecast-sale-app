@@ -17,7 +17,6 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -39,6 +38,7 @@ public class SecondPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.second_page, container, false);
 
+        menuList.clear();
         dbHelper = DBHelper.getInstance(v.getContext());
 
         materialCalendarView = v.findViewById(R.id.calendarView);
@@ -133,9 +133,9 @@ public class SecondPage extends Fragment {
         day.setText(dateString);
 
         if(menu_id != 0) {
-            try {
-                menu_name.setText(menuList.get(menu_id) + " ");
+            menu_name.setText(menuList.get(menu_id) + " ");
 
+            try {
                 ArrayList<Integer> sale = dbHelper.getSaleQtySkyWithIdAndDate(menu_id, dateString);
                 predict_value.setText(String.valueOf(sale.get(0)));
 

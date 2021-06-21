@@ -9,6 +9,7 @@ public class Sale {
     public static final String QTY = "qty";
     public static final String SKY = "sky";
     public static final String RAIN = "rain";
+    public static final String DAY = "day";
     public static final String DATE = "date";
     public static final String TIME = "time";
     public static final String HOLIDAY = "holiday";
@@ -18,6 +19,7 @@ public class Sale {
     public int qty;
     public int sky;
     public int rain;
+    public int day;
     public String date;
     public Boolean time;
     public Boolean holiday;
@@ -25,13 +27,14 @@ public class Sale {
 
     public Sale() {}
 
-    public Sale(int _id, int menu_id, int qty, String date, int sky, int rain, Boolean time) {
+    public Sale(int _id, int menu_id, int qty, String date, int sky, int rain, int day, Boolean time) {
         this._id = _id;
         this.menu_id = menu_id;
         this.qty = qty;
         this.date = date;
         this.sky = sky;
         this.rain = rain;
+        this.day = day;
         this.time = time;
     }
 
@@ -42,6 +45,7 @@ public class Sale {
                     + QTY + " INTEGER NOT NULL,"
                     + SKY + " INTEGER,"
                     + RAIN + " INTEGER,"
+                    + DAY + " INTEGER,"
                     + DATE + " TEXT NOT NULL,"
                     + TIME + " INTEGER NOT NULL,"
                     + HOLIDAY + " INTEGER NOT NULL"
@@ -53,6 +57,8 @@ public class Sale {
     public void setId(int _id) { this._id = _id; }
     public void setMenuId(int menu_id) { this.menu_id = menu_id; }
     public void setSaleQty(int qty) { this.qty = qty; }
+//    public void setSaleWeather(int weather) { this.weather = weather; }
+    public void setSaleDay(int day) { this.day = day; }
     public void setSaleSky(int sky) { this.sky = sky; }
     public void setSaleRain(int rain) { this.sky = rain; }
     public void setSaleDate(String date) { this.date = date; }
