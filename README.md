@@ -1,6 +1,5 @@
 # READY
 날짜와 날씨 API를 활용한 시계열 예측 머신러닝 기반 수요 예측 재고관리 앱(안드로이드)
-
 <br>
 <br><img width="300" alt="function1" src="https://user-images.githubusercontent.com/38302837/122964278-0a02bd80-d3c2-11eb-9e16-0d2ead2322e5.png">
 
