@@ -44,7 +44,7 @@
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/sun"
+                            android:id="@+id/today_weather_icon"
                             android:layout_marginRight="5dp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/sun"
+                            android:id="@+id/tomorrow_weather_icon"
                             android:layout_marginRight="10dp"/>
                         <TextView
                             android:layout_width="wrap_content"
