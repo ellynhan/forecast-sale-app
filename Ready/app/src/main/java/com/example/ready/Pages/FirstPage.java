@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,9 +31,6 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -41,7 +39,8 @@ import java.util.concurrent.Future;
 
 public class FirstPage extends Fragment {
     public static FirstPage newInstance() { return new FirstPage(); }
-    private TextView todayDate,tomorrowDate,weekRange,todayWeather, tomorrowWeahter,todayMM, tmrMM;
+    private TextView todayDate,tomorrowDate,weekRange,todayWeather, tomorrowWeather,todayMM, tmrMM;
+    private ImageView todayWeatherIcon, tomorrowWeatherIcon;
     private RecyclerView recyclerViewToday, recyclerViewTomorrow;
     private RecyclerViewAdapter adapterToday, adapterTomorrow;
     private ArrayList<RecyclerViewItem> foreCastTodayItems,foreCastTomorrowItems;
@@ -58,9 +57,11 @@ public class FirstPage extends Fragment {
         todayDate = view.findViewById(R.id.today_date_textview);
         tomorrowDate = view.findViewById(R.id.tomorrow_date_textview);
         todayWeather = view.findViewById(R.id.today_weather_textview);
-        tomorrowWeahter = view.findViewById(R.id.tomorrow_weather_textview);
+        tomorrowWeather = view.findViewById(R.id.tomorrow_weather_textview);
         todayMM = view.findViewById(R.id.today_maxmin);
         tmrMM = view.findViewById(R.id.tmr_maxmin);
+        todayWeatherIcon = view.findViewById(R.id.today_weather_icon);
+        tomorrowWeatherIcon = view.findViewById(R.id.tomorrow_weather_icon);
         weekRange = view.findViewById(R.id.week_range_textview);
         barChart = view.findViewById(R.id.barchart);
         adapterToday = new RecyclerViewAdapter();
@@ -71,6 +72,7 @@ public class FirstPage extends Fragment {
         db = DBHelper.getInstance(view.getContext());
         w = new Weather();
         String[] weathers = {"맑음","비","비/눈","눈","소나기","빗방울","빗방울/눈날림","눈날림"};
+        int [] weatherIcons = {R.drawable.sun, R.drawable.rainy, R.drawable.rainy, R.drawable.snowy, R.drawable.rainy,R.drawable.rainy,R.drawable.rainy,R.drawable.snowy};
         String pty="",tmx="", tmn="", tmr_tmx="", tmr_tmn="",tmr_pty="";
         String weatherResult = "";
         final int[] parseIndex ={0,0,0,0,0,0};
@@ -89,20 +91,33 @@ public class FirstPage extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(weatherResult);
+        int isOverTwoAm = 1;
         for(int i=0; i<6; i++){
             parseIndex[i]=weatherResult.indexOf(searchKeyword[i]);
+            if(parseIndex[i] == -1){
+                isOverTwoAm = 0;
+                break;
+            }
         }
-        pty = weatherResult.substring(parseIndex[0]+4,parseIndex[0]+5);
-        tmn = weatherResult.substring(parseIndex[1]+4,parseIndex[2]);
-        tmx = weatherResult.substring(parseIndex[2]+4,parseIndex[3]);
-        tmr_pty = weatherResult.substring(parseIndex[3]+8,parseIndex[3]+9);
-        tmr_tmn = weatherResult.substring(parseIndex[4]+8,parseIndex[5]);
-        tmr_tmx = weatherResult.substring(parseIndex[5]+8,weatherResult.length());
-        todayWeather.setText(weathers[Integer.parseInt(pty)]);
-        tomorrowWeahter.setText(weathers[Integer.parseInt(tmr_pty)]);
-        todayMM.setText("최고   최저\n"+tmx+"   "+tmn);
-        tmrMM.setText("최고   최저\n"+tmr_tmx+"   "+tmr_tmn);
+        if(isOverTwoAm == 0){
+            todayWeather.setText("정보 없음");
+            tomorrowWeather.setText("정보 없음");
+            todayMM.setText("새벽 2시 이후에 기상청 정보를 불러 옵니다.");
+            tmrMM.setText("새벽 2시 이후에 기상청 정보를 불러옵니다. ");
+        }else{
+            pty = weatherResult.substring(parseIndex[0]+4,parseIndex[0]+5);
+            tmn = weatherResult.substring(parseIndex[1]+4,parseIndex[2]);
+            tmx = weatherResult.substring(parseIndex[2]+4,parseIndex[3]);
+            tmr_pty = weatherResult.substring(parseIndex[3]+8,parseIndex[3]+9);
+            tmr_tmn = weatherResult.substring(parseIndex[4]+8,parseIndex[5]);
+            tmr_tmx = weatherResult.substring(parseIndex[5]+8,weatherResult.length());
+            todayWeather.setText(weathers[Integer.parseInt(pty)]);
+            tomorrowWeather.setText(weathers[Integer.parseInt(tmr_pty)]);
+            todayWeatherIcon.setImageResource(weatherIcons[Integer.parseInt(pty)]);
+            tomorrowWeatherIcon.setImageResource(weatherIcons[Integer.parseInt(pty)]);
+            todayMM.setText("최고   최저\n"+tmx+"   "+tmn);
+            tmrMM.setText("최고   최저\n"+tmr_tmx+"   "+tmr_tmn);
+        }
         ArrayList<Menu> menus = db.getMenu();
         int[] firstFcst = {62,70,69};
         int[] secondFcst = {71,68,64};
